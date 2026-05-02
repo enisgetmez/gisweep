@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -21,3 +21,4 @@ class Context:
     http: HttpClient
     logger: structlog.stdlib.BoundLogger
     output_dir: Path
+    cache: dict[str, Any] = field(default_factory=dict)

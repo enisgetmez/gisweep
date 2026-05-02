@@ -14,12 +14,14 @@ if TYPE_CHECKING:
 
 @pytest.fixture(autouse=True)
 def _isolated_registry() -> Iterator[None]:
-    """Each test runs against a clean registry, so decorator side effects
-    declared in one test do not leak into another."""
-    snapshot = list(registry.all_checks())
-    snapshot_meta = {cls.meta.id: cls for cls in snapshot}
+    """Snapshot built-in checks at session entry; restore them before each test
+    so any test-only registrations that come and go cannot leak across tests
+    while built-ins remain available everywhere."""
+    snapshot = {cls.meta.id: cls for cls in registry.all_checks()}
     registry.reset()
+    for cls in snapshot.values():
+        registry._REGISTRY[cls.meta.id] = cls
     yield
     registry.reset()
-    for cls in snapshot_meta.values():
+    for cls in snapshot.values():
         registry._REGISTRY[cls.meta.id] = cls

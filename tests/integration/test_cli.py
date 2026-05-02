@@ -47,8 +47,8 @@ def test_version_command() -> None:
     assert _version.__version__ in result.stdout
 
 
-def test_checks_list_empty() -> None:
-    result = CliRunner().invoke(app, ["checks", "list"])
+def test_checks_list_empty_when_filtered_to_unknown_category() -> None:
+    result = CliRunner().invoke(app, ["checks", "list", "--category", "unknown-cat"])
     assert result.exit_code == 0
     assert "No checks registered" in result.stdout
 
@@ -87,11 +87,6 @@ def test_checks_info_known_id_renders_metadata() -> None:
 
 def test_scan_stub_exits_two() -> None:
     result = CliRunner().invoke(app, ["scan", "https://x.example"])
-    assert result.exit_code == 2
-
-
-def test_arcgis_stub_exits_two() -> None:
-    result = CliRunner().invoke(app, ["arcgis", "https://x.example/arcgis/rest"])
     assert result.exit_code == 2
 
 

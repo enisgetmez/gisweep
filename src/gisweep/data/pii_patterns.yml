@@ -1,0 +1,97 @@
+# PII pattern catalogue — matched against ArcGIS field names/aliases and,
+# optionally, sampled values. Each pattern carries the KVKK and GDPR articles
+# whose protections it engages so that ARC-014 findings are compliance-tagged
+# without per-check boilerplate.
+#
+# `name_regex`: case-insensitive regex applied to the field name AND its alias.
+# `value_regex`: optional regex applied to sample values (when ARC-014 active).
+# `sensitive`: when true, classified under KVKK Madde 6 (özel nitelikli) /
+#              GDPR Art. 9 (special categories) and bumped one severity grade.
+
+- id: tckn
+  label: Turkish national identity number
+  name_regex: '\b(tckn|tc_kimlik(_no)?|tckimliknumarasi|kimlik_no|tcno|tc_no|identity_?number|citizenship_?id)\b'
+  value_regex: '\b[1-9]\d{10}\b'
+  kvkk: ["m12"]
+  gdpr: ["art32", "art5-1-f"]
+  sensitive: false
+
+- id: name
+  label: Person name
+  name_regex: '\b(ad|soyad|adi|soyadi|adsoyad|isim|name|first_?name|last_?name|full_?name|kullanici_?adi)\b'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: email
+  label: Email address
+  name_regex: '\b(email|e_?posta|mail|eposta)\b'
+  value_regex: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: phone
+  label: Phone number
+  name_regex: '\b(telefon|tel|gsm|phone|mobile|mobil|cep|cep_?no|phone_?number)\b'
+  value_regex: '(?:\+90|0)?\s?\d{3}[\s\-]?\d{3}[\s\-]?\d{4}'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: address
+  label: Street address
+  name_regex: '\b(adres|address|mahalle|sokak|cadde|bina|kapi_?no|daire|postakodu|posta_?kodu|zip|zip_?code)\b'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: birthdate
+  label: Date of birth
+  name_regex: '\b(dogum_?tarihi|dogumtarihi|birthdate|birthday|dob|date_?of_?birth)\b'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: iban
+  label: IBAN / bank account
+  name_regex: '\b(iban|hesap_?no|hesapno|account_?number|bank_?account)\b'
+  value_regex: '\b[A-Z]{2}\d{2}[A-Z0-9]{1,30}\b'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: vergi
+  label: Tax / VAT number
+  name_regex: '\b(vno|vergino|vergi_?no|tax_?number|tax_?id|tin)\b'
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  sensitive: false
+
+- id: health
+  label: Health / medical data
+  name_regex: '\b(saglik|hastalik|tani|teshis|ilac|kan_?grubu|engel(li)?|hiv|disease|diagnosis|medication|blood_?type|disability)\b'
+  kvkk: ["m6", "m12"]
+  gdpr: ["art9", "art32"]
+  sensitive: true
+
+- id: religion
+  label: Religion / belief
+  name_regex: '\b(din|inanc|mezhep|religion|belief|sect)\b'
+  kvkk: ["m6", "m12"]
+  gdpr: ["art9", "art32"]
+  sensitive: true
+
+- id: ethnicity
+  label: Ethnicity / race
+  name_regex: '\b(etnik|irk|kavim|ethnicity|race|nationality_origin)\b'
+  kvkk: ["m6", "m12"]
+  gdpr: ["art9", "art32"]
+  sensitive: true
+
+- id: criminal
+  label: Criminal record
+  name_regex: '\b(suc|sabika|mahkumiyet|criminal_?record|conviction|offense)\b'
+  kvkk: ["m6", "m12"]
+  gdpr: ["art10", "art32"]
+  sensitive: true

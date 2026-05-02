@@ -105,7 +105,8 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "PLR2004", "ANN", "PT004"]
+"tests/**/*.py" = ["S101", "S105", "S106", "PLR2004", "ANN", "PT004"]
+"src/gisweep/cli.py" = ["B008", "PLR0913", "FBT001", "FBT002"]
 
 [tool.ruff.format]
 quote-style = "double"

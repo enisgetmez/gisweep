@@ -1,21 +1,21 @@
-"""gisweep CLI — Typer entry point with subcommands.
-
-Phase 1 wires up ``checks list/info``, ``version``, and stub commands for the
-scanner subcommands so that the CLI surface is fully discoverable end-to-end
-even before any check is implemented.
-"""
+"""gisweep CLI — Typer entry point with subcommands."""
 
 from __future__ import annotations
+
+import asyncio
+import uuid
+from pathlib import Path
 
 import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-# eager import so any registered checks populate the registry
-import gisweep.checks  # noqa: F401
+import gisweep.checks  # noqa: F401  -- side-effect: register checks
 from gisweep import _version
 from gisweep.core import registry
+from gisweep.core.finding import Severity
+from gisweep.runtime import arcgis as arcgis_runtime
 
 _HELP = "GIS vulnerability scanner — ArcGIS REST, embedded maps, secret detection, KVKK/GDPR-aware."
 
@@ -112,6 +112,12 @@ def _not_implemented(name: str) -> None:
     raise typer.Exit(code=2)
 
 
+def _parse_csv(value: str | None) -> frozenset[str]:
+    if not value:
+        return frozenset()
+    return frozenset(part.strip() for part in value.split(",") if part.strip())
+
+
 @app.command()
 def scan(url: str = typer.Argument(..., help="Target URL — kind auto-detected.")) -> None:
     """Scan a target with auto-detected kind dispatch."""
@@ -120,10 +126,95 @@ def scan(url: str = typer.Argument(..., help="Target URL — kind auto-detected.
 
 
 @app.command()
-def arcgis(url: str = typer.Argument(..., help="ArcGIS REST root or service URL.")) -> None:
+def arcgis(
+    url: str = typer.Argument(..., help="ArcGIS REST root URL."),
+    token: str | None = typer.Option(
+        None, "--token", help="ArcGIS token; appended as ?token= and X-Esri-Authorization."
+    ),
+    username: str | None = typer.Option(None, "--username", help="ArcGIS username."),
+    password: str | None = typer.Option(None, "--password", help="ArcGIS password."),
+    portal_url: str | None = typer.Option(
+        None,
+        "--portal-url",
+        help="Portal root used for /sharing/rest/generateToken (defaults to the target host).",
+    ),
+    referer: str | None = typer.Option(None, "--referer", help="Referer to bind tokens to."),
+    active: bool = typer.Option(False, "--active", help="Enable intrusive active checks."),
+    i_own_this_target: bool = typer.Option(
+        False,
+        "--i-own-this-target",
+        help="Required with --active; affirms ownership / written authorization.",
+    ),
+    auth_bruteforce: bool = typer.Option(
+        False, "--auth-bruteforce", help="Probe vendor default credentials (rate-limited)."
+    ),
+    ssrf_canary: str | None = typer.Option(
+        None, "--ssrf-canary", help="Operator-supplied callback host for SSRF probes."
+    ),
+    output: list[str] | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Output file (extension implies format) or `format:path`. Repeatable.",
+    ),
+    severity_threshold: Severity = typer.Option(
+        Severity.INFO, "--severity-threshold", help="Drop findings below this severity."
+    ),
+    include: str | None = typer.Option(
+        None, "--include", help="Comma-separated check ids to keep."
+    ),
+    exclude: str | None = typer.Option(
+        None, "--exclude", help="Comma-separated check ids to drop."
+    ),
+    proxy: str | None = typer.Option(None, "--proxy", help="HTTP/SOCKS proxy URL."),
+    rate_limit: float | None = typer.Option(
+        None, "--rate-limit", help="Per-host requests per second cap."
+    ),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    max_concurrency: int = typer.Option(
+        10, "--max-concurrency", help="Concurrent in-flight requests."
+    ),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+    max_depth: int = typer.Option(5, "--max-depth", help="Max folder recursion depth."),
+) -> None:
     """Scan an ArcGIS REST endpoint."""
-    _ = url
-    _not_implemented("arcgis")
+    if active and not i_own_this_target:
+        console.print(
+            "[red]--active requires --i-own-this-target (or --authorized-by). "
+            "See SECURITY.md.[/red]"
+        )
+        raise typer.Exit(code=2)
+
+    request = arcgis_runtime.ScanRequest(
+        url=url,
+        token=token,
+        username=username,
+        password=password,
+        portal_url=portal_url,
+        referer=referer,
+        active=active,
+        i_own_this_target=i_own_this_target,
+        auth_bruteforce=auth_bruteforce,
+        ssrf_canary=ssrf_canary,
+        outputs=tuple(output or ()),
+        severity_threshold=severity_threshold,
+        include=_parse_csv(include),
+        exclude=_parse_csv(exclude),
+        proxy=proxy,
+        rate_limit=rate_limit,
+        timeout=timeout,
+        max_concurrency=max_concurrency,
+        verify_tls=not no_verify_tls,
+        max_depth=max_depth,
+        scan_id=uuid.uuid4().hex,
+        output_dir=Path.cwd(),
+    )
+    try:
+        exit_code = asyncio.run(arcgis_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
 
 
 @app.command()
@@ -140,5 +231,9 @@ def secrets(url_or_path: str = typer.Argument(..., help="URL or local path.")) -
     _not_implemented("secrets")
 
 
-if __name__ == "__main__":
+def main() -> None:  # pragma: no cover -- entry point shim
     app()
+
+
+if __name__ == "__main__":
+    main()

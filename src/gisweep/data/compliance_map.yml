@@ -1,0 +1,49 @@
+# Cross-cutting compliance overlay rules. Each rule examines the full set of
+# findings emitted in a scan and yields aggregate `COMP-*` findings when the
+# combination engages a higher-level KVKK/GDPR obligation.
+#
+# Per-check KVKK/GDPR mapping is encoded directly on the check via @register;
+# this file only carries the aggregate rules.
+
+- id: COMP-001
+  title: KVKK Madde 12 aggregate violation — ≥5 PII fields exposed under anonymous read
+  severity: critical
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  trigger:
+    type: pii_aggregate
+    min_pii_findings: 5
+
+- id: COMP-002
+  title: KVKK Madde 9 cross-border transfer — tile/asset CDN outside TR/EU
+  severity: medium
+  kvkk: ["m9"]
+  gdpr: ["chV"]
+  trigger:
+    type: cross_border_origin
+    allowed_country_codes: ["TR", "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE",
+                            "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT",
+                            "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES",
+                            "SE", "IS", "LI", "NO"]
+
+- id: COMP-003
+  title: GDPR Art. 32 technical-measures gap — admin exposed and data services unauthenticated
+  severity: critical
+  kvkk: ["m12"]
+  gdpr: ["art32"]
+  trigger:
+    type: combined_findings
+    require_any:
+      - ARC-003
+    and_any:
+      - ARC-001
+      - ARC-002
+
+- id: COMP-004
+  title: Geographic precision + indirect identifier — re-identification risk
+  severity: medium
+  kvkk: ["m12"]
+  gdpr: ["art4-1", "art32"]
+  trigger:
+    type: precision_with_identifier
+    note: "high-precision points (sub-meter) combined with a named field"
