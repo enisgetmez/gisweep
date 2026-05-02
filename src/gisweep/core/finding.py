@@ -42,6 +42,8 @@ class TargetKind(StrEnum):
     ARCGIS_ROOT = "arcgis_root"
     ARCGIS_SERVICE = "arcgis_service"
     ARCGIS_LAYER = "arcgis_layer"
+    OGC_SERVICE = "ogc_service"
+    OGC_LAYER = "ogc_layer"
     WEB_PAGE = "web_page"
     ASSET = "asset"
     UNKNOWN = "unknown"

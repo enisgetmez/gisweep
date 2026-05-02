@@ -16,6 +16,7 @@ from gisweep import _version
 from gisweep.core import registry
 from gisweep.core.finding import Severity
 from gisweep.runtime import arcgis as arcgis_runtime
+from gisweep.runtime import ogc as ogc_runtime
 
 _HELP = "GIS vulnerability scanner — ArcGIS REST, embedded maps, secret detection, KVKK/GDPR-aware."
 
@@ -211,6 +212,76 @@ def arcgis(
     )
     try:
         exit_code = asyncio.run(arcgis_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
+
+
+@app.command()
+def ogc(
+    url: str = typer.Argument(
+        ..., help="Base URL of the OGC server (WMS/WFS root or service path)."
+    ),
+    token: str | None = typer.Option(None, "--token", help="Bearer token, if any."),
+    active: bool = typer.Option(False, "--active", help="Enable intrusive active checks."),
+    i_own_this_target: bool = typer.Option(
+        False,
+        "--i-own-this-target",
+        help="Required with --active; affirms ownership / written authorization.",
+    ),
+    output: list[str] | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Output file (extension implies format) or `format:path`. Repeatable.",
+    ),
+    severity_threshold: Severity = typer.Option(
+        Severity.INFO, "--severity-threshold", help="Drop findings below this severity."
+    ),
+    include: str | None = typer.Option(
+        None, "--include", help="Comma-separated check ids to keep."
+    ),
+    exclude: str | None = typer.Option(
+        None, "--exclude", help="Comma-separated check ids to drop."
+    ),
+    proxy: str | None = typer.Option(None, "--proxy", help="HTTP/SOCKS proxy URL."),
+    rate_limit: float | None = typer.Option(
+        None, "--rate-limit", help="Per-host requests per second cap."
+    ),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    max_concurrency: int = typer.Option(
+        10, "--max-concurrency", help="Concurrent in-flight requests."
+    ),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+) -> None:
+    """Scan an OGC web service (WMS / WFS over GeoServer, MapServer, QGIS Server)."""
+    if active and not i_own_this_target:
+        console.print(
+            "[red]--active requires --i-own-this-target (or --authorized-by). "
+            "See SECURITY.md.[/red]"
+        )
+        raise typer.Exit(code=2)
+
+    request = ogc_runtime.ScanRequest(
+        url=url,
+        token=token,
+        active=active,
+        i_own_this_target=i_own_this_target,
+        outputs=tuple(output or ()),
+        severity_threshold=severity_threshold,
+        include=_parse_csv(include),
+        exclude=_parse_csv(exclude),
+        proxy=proxy,
+        rate_limit=rate_limit,
+        timeout=timeout,
+        max_concurrency=max_concurrency,
+        verify_tls=not no_verify_tls,
+        scan_id=uuid.uuid4().hex,
+        output_dir=Path.cwd(),
+    )
+    try:
+        exit_code = asyncio.run(ogc_runtime.run(request, console=console))
     except KeyboardInterrupt:
         console.print("[yellow]aborted[/yellow]")
         raise typer.Exit(code=2) from None

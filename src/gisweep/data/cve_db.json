@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-02T23:31:59.807570+00:00",
+  "generated_at": "2026-05-02T23:48:30.128753+00:00",
   "source": "https://services.nvd.nist.gov/rest/json/cves/2.0",
   "products": {
     "esri:arcgis_server": [
@@ -849,6 +849,4792 @@
       }
     ],
     "esri:arcgis_api_for_javascript": [],
+    "osgeo:geoserver": [
+      {
+        "cve_id": "CVE-2022-24847",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. The GeoServer security mechanism can perform an unchecked JNDI lookup, which in turn can be used to perform class deserialization and result in arbitrary code execution. The same can happen while configuring data stores with data sources located in JNDI, or while setting up the disk quota mechanism. In order to perform any of the above changes, the attack needs to have obtained admin rights and use either the GeoServer GUI, or its REST API. The lookups are going to be restricted in GeoServer 2.21.0, 2.20.4, 1.19.6. Users unable to upgrade should restrict access to the `geoserver/web` and `geoserver/rest` via a firewall and ensure that the GeoWebCache is not remotely accessible.",
+        "severity": "high",
+        "cvss_score": 7.2,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2022-04-13T22:15:08.400",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-4pm3-f52j-8ggh",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-4pm3-f52j-8ggh"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.19.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.20.0",
+            "fixed": "2.20.4",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-40822",
+        "summary": "GeoServer through 2.18.5 and 2.19.x through 2.19.2 allows SSRF via the option for setting a proxy host.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2022-05-02T00:15:08.113",
+        "references": [
+          "https://github.com/geoserver/geoserver/compare/2.19.2...2.19.3",
+          "https://github.com/geoserver/geoserver/releases",
+          "https://osgeo-org.atlassian.net/browse/GEOS-10229",
+          "https://osgeo-org.atlassian.net/browse/GEOS-10229?focusedCommentId=83508",
+          "https://github.com/geoserver/geoserver/compare/2.19.2...2.19.3",
+          "https://github.com/geoserver/geoserver/releases",
+          "https://osgeo-org.atlassian.net/browse/GEOS-10229",
+          "https://osgeo-org.atlassian.net/browse/GEOS-10229?focusedCommentId=83508"
+        ],
+        "ranges": [
+          {
+            "introduced": "2.19.0",
+            "fixed": "2.19.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-25157",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. GeoServer includes support for the OGC Filter expression language and the OGC Common Query Language (CQL) as part of the Web Feature Service (WFS) and Web Map Service (WMS) protocols.  CQL is also supported through the Web Coverage Service (WCS) protocol for ImageMosaic coverages. Users are advised to upgrade to either version 2.21.4, or version 2.22.2 to resolve this issue. Users unable to upgrade should disable the PostGIS Datastore *encode functions* setting to mitigate ``strEndsWith``, ``strStartsWith`` and ``PropertyIsLike `` misuse and enable the PostGIS DataStore *preparedStatements* setting to mitigate the ``FeatureId`` misuse.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2023-02-21T22:15:10.620",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/145a8af798590288d270b240235e89c8f0b62e1d",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-7g5f-wrx8-5ccf",
+          "https://github.com/geoserver/geoserver/commit/145a8af798590288d270b240235e89c8f0b62e1d",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-7g5f-wrx8-5ccf"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.18.7",
+            "exact": null
+          },
+          {
+            "introduced": "2.19.0",
+            "fixed": "2.19.7",
+            "exact": null
+          },
+          {
+            "introduced": "2.20.0",
+            "fixed": "2.20.7",
+            "exact": null
+          },
+          {
+            "introduced": "2.21.0",
+            "fixed": "2.21.4",
+            "exact": null
+          },
+          {
+            "introduced": "2.22.0",
+            "fixed": "2.22.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-41339",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. The WMS specification defines an ``sld=<url>`` parameter for GetMap, GetLegendGraphic and GetFeatureInfo operations for user supplied \"dynamic styling\".  Enabling the use of dynamic styles, without also configuring URL checks, provides the opportunity for Service Side Request Forgery. This vulnerability can be used to steal user NetNTLMv2 hashes which could be relayed or cracked externally to gain further access. This vulnerability has been patched in versions 2.22.5 and 2.23.2.",
+        "severity": "medium",
+        "cvss_score": 5.3,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "published": "2023-10-25T18:17:30.840",
+        "references": [
+          "https://github.com/geoserver/geoserver/releases/tag/2.22.5",
+          "https://github.com/geoserver/geoserver/releases/tag/2.23.2",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-cqpc-x2c6-2gmf",
+          "https://github.com/geoserver/geoserver/releases/tag/2.22.5",
+          "https://github.com/geoserver/geoserver/releases/tag/2.23.2",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-cqpc-x2c6-2gmf"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.22.5",
+            "exact": null
+          },
+          {
+            "introduced": "2.23.0",
+            "fixed": "2.23.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-43795",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. The OGC Web Processing Service (WPS) specification is designed to process information from any server using GET and POST requests. This presents the opportunity for Server Side Request Forgery. This vulnerability has been patched in version 2.22.5 and 2.23.2.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2023-10-25T18:17:32.180",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-5pr3-m5hm-9956",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-5pr3-m5hm-9956"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.22.5",
+            "exact": null
+          },
+          {
+            "introduced": "2.23.0",
+            "fixed": "2.23.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-35230",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. In affected versions the welcome and about page includes version and revision information about the software in use (including library and components used). This information is sensitive from a security point of view because it allows software used by the server to be easily identified. This issue has been patched in version 2.26.0 and all users are advised to upgrade. There are no known workarounds for this vulnerability.",
+        "severity": "medium",
+        "cvss_score": 5.3,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "published": "2024-12-16T23:15:06.467",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/74fdab745a5deff20ac99abca24d8695fe1a52f8",
+          "https://github.com/geoserver/geoserver/commit/8cd1590a604a10875de67b04995f1952f631f920",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-6pfc-w86r-54q6",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-6pfc-w86r-54q6"
+        ],
+        "ranges": [
+          {
+            "introduced": "2.0.0",
+            "fixed": "2.25.1",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-29198",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. It possible to achieve Service Side Request Forgery (SSRF) via the Demo request endpoint if Proxy Base URL has not been set. Upgrading to GeoServer 2.24.4, or 2.25.2, removes the TestWfsPost servlet resolving this issue.",
+        "severity": "high",
+        "cvss_score": 8.2,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "published": "2025-06-10T15:15:22.140",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-5gw5-jccf-6hxw",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11390",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11794"
+        ],
+        "ranges": [
+          {
+            "introduced": "2.0.0",
+            "fixed": "2.24.4",
+            "exact": null
+          },
+          {
+            "introduced": "2.25.0",
+            "fixed": "2.25.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-34711",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. An improper URI validation vulnerability exists that enables an unauthorized attacker to perform XML External Entities (XEE) attack, then send GET request to any HTTP server. By default, GeoServer use PreventLocalEntityResolver class from GeoTools to filter out malicious URIs in XML entities before resolving them. The URI must match the regex (?i)(jar:file|http|vfs)[^?#;]*\\\\.xsd. But the regex leaves a chance for attackers to request to any HTTP server or limited file. Attacker can abuse this to scan internal networks and gain information about them then exploit further. GeoServer 2.25.0 and greater default to the use of ENTITY_RESOLUTION_ALLOWLIST and does not require you to provide a system property.",
+        "severity": "high",
+        "cvss_score": 8.2,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "published": "2025-06-10T15:15:22.710",
+        "references": [
+          "https://docs.geoserver.org/latest/en/user/production/config.html#production-config-external-entities",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-mc43-4fqr-c965"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-38524",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. org.geowebcache.GeoWebCacheDispatcher.handleFrontPage(HttpServletRequest, HttpServletResponse) has no check to hide potentially sensitive information from users except for a hidden system property to hide the storage locations that defaults to showing the locations. This vulnerability is fixed in 2.26.2 and 2.25.6.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2025-06-10T15:15:22.880",
+        "references": [
+          "https://github.com/GeoWebCache/geowebcache/issues/1344",
+          "https://github.com/GeoWebCache/geowebcache/pull/1345",
+          "https://github.com/geoserver/geoserver/pull/8189",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-jm79-7xhw-6f6f",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11677"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.26.0",
+            "fixed": "2.26.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-40625",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. The Coverage rest api /workspaces/{workspaceName}/coveragestores/{storeName}/{method}.{format} allows attackers to upload files with a specified url (with {method} equals 'url') with no restrict. This vulnerability is fixed in 2.26.0.",
+        "severity": "medium",
+        "cvss_score": 4.9,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N",
+        "published": "2025-06-10T15:15:23.043",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-r4hf-r8gj-jgw2",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11468",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11717"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.26.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-27505",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. It is possible to bypass the default REST API security and access the index page. The REST API security handles rest and its subpaths but not rest with an extension (e.g., rest.html). The REST API index can disclose whether certain extensions are installed. This vulnerability is fixed in 2.26.3 and 2.25.6. As a workaround, in ${GEOSERVER_DATA_DIR}/security/config.xml, change the paths for the rest filter to /rest.*,/rest/** and change the paths for the gwc filter to /gwc/rest.*,/gwc/rest/** and restart GeoServer.",
+        "severity": "medium",
+        "cvss_score": 5.3,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "published": "2025-06-10T15:15:23.903",
+        "references": [
+          "https://github.com/geoserver/geoserver/pull/8170",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-h86g-x8mm-78m5",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11664",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11776"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.26.0",
+            "fixed": "2.26.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-30145",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. Malicious Jiffle scripts can be executed by GeoServer, either as a rendering transformation in WMS dynamic styles or as a WPS process, that can enter an infinite loop to trigger denial of service. This vulnerability is fixed in 2.27.0, 2.26.3, and 2.25.7. This vulnerability can be mitigated by disabling WMS dynamic styling and  the Jiffle process.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "published": "2025-06-10T15:15:24.070",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-gr67-pwcv-76gf",
+          "https://github.com/geosolutions-it/jai-ext/pull/307",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11778"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.7",
+            "exact": null
+          },
+          {
+            "introduced": "2.26.0",
+            "fixed": "2.26.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-30220",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. GeoTools Schema class use of Eclipse XSD library to represent schema data structure is vulnerable to XML External Entity (XXE) exploit. This impacts whoever exposes XML processing with gt-xsd-core involved in parsing, when the documents carry a reference to an external XML schema. The gt-xsd-core Schemas class is not using the EntityResolver provided by the ParserHandler (if any was configured). This also impacts users of gt-wfs-ng DataStore where the ENTITY_RESOLVER connection parameter was not being used as intended. This vulnerability is fixed in GeoTools 33.1, 32.3, 31.7, and 28.6.1, GeoServer 2.27.1, 2.26.3, and 2.25.7, and GeoNetwork 4.4.8 and 4.2.13.",
+        "severity": "critical",
+        "cvss_score": 9.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+        "published": "2025-06-10T16:15:37.387",
+        "references": [
+          "https://docs.geoserver.org/latest/en/user/production/config.html#production-config-external-entities",
+          "https://github.com/geonetwork/core-geonetwork/pull/8757",
+          "https://github.com/geonetwork/core-geonetwork/pull/8803",
+          "https://github.com/geonetwork/core-geonetwork/pull/8812",
+          "https://github.com/geonetwork/core-geonetwork/security/advisories/GHSA-2p76-gc46-5fvc",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-jj54-8f66-c5pc",
+          "https://github.com/geotools/geotools/security/advisories/GHSA-826p-4gcg-35vw"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.7",
+            "exact": null
+          },
+          {
+            "introduced": "2.26.0",
+            "fixed": "2.26.3",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.27.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2008-7227",
+        "summary": "PartialBufferOutputStream2 in GeoServer before 1.6.1 and 1.7.0-beta1 attempts to flush buffer contents even when it is handling an \"in memory buffer,\" which prevents the reporting of a service exception, with unknown impact and attack vectors.",
+        "severity": "medium",
+        "cvss_score": 5.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+        "published": "2009-09-14T14:30:00.377",
+        "references": [
+          "http://jira.codehaus.org/browse/GEOS-1747",
+          "http://osvdb.org/43266",
+          "http://jira.codehaus.org/browse/GEOS-1747",
+          "http://osvdb.org/43266"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.3.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.5.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.7.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "3.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-35042",
+        "summary": "GeoServer 2, in some configurations, allows remote attackers to execute arbitrary code via java.lang.Runtime.getRuntime().exec in wps:LiteralData within a wps:Execute request, as exploited in the wild in June 2023. NOTE: the vendor states that they are unable to reproduce this in any version.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2023-06-12T15:15:09.820",
+        "references": [
+          "https://docs.geoserver.org/stable/en/user/services/wps/operations.html#execute",
+          "https://isc.sans.edu/diary/29936",
+          "https://docs.geoserver.org/stable/en/user/services/wps/operations.html#execute",
+          "https://isc.sans.edu/diary/29936"
+        ],
+        "ranges": [
+          {
+            "introduced": "2.0.0",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-51444",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. An arbitrary file upload vulnerability exists in versions prior to 2.23.4 and 2.24.1 that enables an authenticated administrator with permissions to modify coverage stores through the REST Coverage Store API to upload arbitrary file contents to arbitrary file locations which can lead to remote code execution. Coverage stores that are configured using relative paths use a GeoServer Resource implementation that has validation to prevent path traversal but coverage stores that are configured using absolute paths use a different Resource implementation that does not prevent path traversal. This vulnerability can lead to executing arbitrary code. An administrator with limited privileges could also potentially exploit this to overwrite GeoServer security files and obtain full administrator privileges. Versions 2.23.4 and 2.24.1 contain a fix for this issue.",
+        "severity": "high",
+        "cvss_score": 7.2,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2024-03-20T15:15:07.700",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/ca683170c669718cb6ad4c79e01b0451065e13b8",
+          "https://github.com/geoserver/geoserver/commit/fe235b3bb1d7f05751a4a2ef5390c36f5c9e78ae",
+          "https://github.com/geoserver/geoserver/pull/7222",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-9v5q-2gwq-q9hq",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11176",
+          "https://github.com/geoserver/geoserver/commit/ca683170c669718cb6ad4c79e01b0451065e13b8",
+          "https://github.com/geoserver/geoserver/commit/fe235b3bb1d7f05751a4a2ef5390c36f5c9e78ae",
+          "https://github.com/geoserver/geoserver/pull/7222",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-9v5q-2gwq-q9hq",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11176"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.4",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-51445",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.3 and 2.24.0 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in uploaded style/legend resources that will execute in the context of another administrator's browser when viewed in the REST Resources API.  Access to the REST Resources API is limited to full administrators by default and granting non-administrators access to this endpoint should be carefully considered as it may allow access to files containing sensitive information. Versions 2.23.3 and 2.24.0 contain a patch for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T16:15:07.640",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/7db985738ff2422019ccac974cf547bae5770cad",
+          "https://github.com/geoserver/geoserver/pull/7161",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fh7p-5f6g-vj2w",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11148",
+          "https://github.com/geoserver/geoserver/commit/7db985738ff2422019ccac974cf547bae5770cad",
+          "https://github.com/geoserver/geoserver/pull/7161",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fh7p-5f6g-vj2w",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11148"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23634",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. An arbitrary file renaming vulnerability exists in versions prior to 2.23.5 and 2.24.2 that enables an authenticated administrator with permissions to modify stores through the REST Coverage Store or Data Store API to rename arbitrary files and directories with a name that does not end in `.zip`. Store file uploads rename zip files to have a `.zip` extension if it doesn't already have one before unzipping the file.  This is fine for file and url upload methods where the files will be in a specific subdirectory of the data directory but, when using the external upload method, this allows arbitrary files and directories to be renamed. Renaming GeoServer files will most likely result in a denial of service, either completely preventing GeoServer from running or effectively deleting specific resources (such as a workspace, layer or style).  In some cases, renaming GeoServer files could revert to the default settings for that file which could be relatively harmless like removing contact information or have more serious consequences like allowing users to make OGC requests that the customized settings would have prevented them from making. The impact of renaming non-GeoServer files depends on the specific environment although some sort of denial of service is a likely outcome. Versions 2.23.5 and 2.24.2 contain a fix for this issue.",
+        "severity": "medium",
+        "cvss_score": 6.0,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:H",
+        "published": "2024-03-20T16:15:07.857",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/5d6af2f8ba9ad7dffae59575504a867159698772",
+          "https://github.com/geoserver/geoserver/commit/c37f58fbacdfa0d581a6f99195585f70b1201f0a",
+          "https://github.com/geoserver/geoserver/pull/7289",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-75m5-hh4r-q9gx",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11213",
+          "https://github.com/geoserver/geoserver/commit/5d6af2f8ba9ad7dffae59575504a867159698772",
+          "https://github.com/geoserver/geoserver/commit/c37f58fbacdfa0d581a6f99195585f70b1201f0a",
+          "https://github.com/geoserver/geoserver/pull/7289",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-75m5-hh4r-q9gx",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11213"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.5",
+            "exact": null
+          },
+          {
+            "introduced": "2.24.0",
+            "fixed": "2.24.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23640",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.3 and 2.24.0 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in uploaded style/legend resources or in a specially crafted datastore file that will execute in the context of another user's browser when viewed in the Style Publisher. Access to the Style Publisher is available to all users although data security may limit users' ability to trigger the XSS. Versions 2.23.3 and 2.24.0 contain a fix for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T16:15:08.090",
+        "references": [
+          "https://github.com/geoserver/geoserver/pull/7162",
+          "https://github.com/geoserver/geoserver/pull/7181",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-9rfr-pf2x-g4xf",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11149",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11155",
+          "https://github.com/geoserver/geoserver/pull/7162",
+          "https://github.com/geoserver/geoserver/pull/7181",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-9rfr-pf2x-g4xf",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11149",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11155"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23642",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.4 and 2.24.1 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in the GeoServer catalog that will execute in the context of another user's browser when viewed in the WMS GetMap SVG Output Format when the Simple SVG renderer is enabled. Access to the WMS SVG Format is available to all users by default although data and service security may limit users' ability to trigger the XSS. Versions 2.23.4 and 2.24.1 contain a fix for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T18:15:08.590",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/1b1835afbb9c282d1840786259aeda81c1d22b00",
+          "https://github.com/geoserver/geoserver/commit/9f40265febb5939f23e2c53930c9c35e93970afe",
+          "https://github.com/geoserver/geoserver/pull/7173",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fg9v-56hw-g525",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11152",
+          "https://github.com/geoserver/geoserver/commit/1b1835afbb9c282d1840786259aeda81c1d22b00",
+          "https://github.com/geoserver/geoserver/commit/9f40265febb5939f23e2c53930c9c35e93970afe",
+          "https://github.com/geoserver/geoserver/pull/7173",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fg9v-56hw-g525",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11152"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.4",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23643",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.2 and 2.24.1 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in the GeoServer catalog that will execute in the context of another administrator’s browser when viewed in the GWC Seed Form. Access to the GWC Seed Form is limited to full administrators by default and granting non-administrators access to this endpoint is not recommended. Versions 2.23.2 and 2.24.1 contain a fix for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T18:15:09.047",
+        "references": [
+          "https://github.com/GeoWebCache/geowebcache/commit/9d010e09c784690ada8af43f594461a2553a62f0",
+          "https://github.com/GeoWebCache/geowebcache/issues/1172",
+          "https://github.com/GeoWebCache/geowebcache/pull/1174",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-56r3-f536-5gf7",
+          "https://github.com/GeoWebCache/geowebcache/commit/9d010e09c784690ada8af43f594461a2553a62f0",
+          "https://github.com/GeoWebCache/geowebcache/issues/1172",
+          "https://github.com/GeoWebCache/geowebcache/pull/1174",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-56r3-f536-5gf7"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.2",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23818",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.3 and 2.24.1 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in the GeoServer catalog that will execute in the context of another user's browser when viewed in the WMS GetMap OpenLayers Output Format.  Access to the WMS OpenLayers Format is available to all users by default although data and service security may limit users' ability to trigger the XSS. Versions 2.23.3 and 2.24.1 contain a patch for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T18:15:09.510",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/4557a832eed19ec18b9753cb97e8aa85269741d2",
+          "https://github.com/geoserver/geoserver/commit/a26c32a469ee4c599236380452ffb4260361bd6f",
+          "https://github.com/geoserver/geoserver/pull/7174",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fcpm-hchj-mh72",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11153",
+          "https://github.com/geoserver/geoserver/commit/4557a832eed19ec18b9753cb97e8aa85269741d2",
+          "https://github.com/geoserver/geoserver/commit/a26c32a469ee4c599236380452ffb4260361bd6f",
+          "https://github.com/geoserver/geoserver/pull/7174",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fcpm-hchj-mh72",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11153"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.3",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23819",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.4 and 2.24.1 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in the GeoServer catalog that will execute in the context of another user's browser when viewed in the MapML HTML Page. The MapML extension must be installed and access to the MapML HTML Page is available to all users although data security may limit users' ability to trigger the XSS. Versions 2.23.4 and 2.24.1 contain a patch for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T18:15:09.970",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/6f04adbdc6c289f5cb815b1462a6bd790e3fb6ef",
+          "https://github.com/geoserver/geoserver/commit/df65ff05250cbb498c78af906d66e0c084ace8a1",
+          "https://github.com/geoserver/geoserver/pull/7175",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-7x76-57fr-m5r5",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11154",
+          "https://github.com/geoserver/geoserver/commit/6f04adbdc6c289f5cb815b1462a6bd790e3fb6ef",
+          "https://github.com/geoserver/geoserver/commit/df65ff05250cbb498c78af906d66e0c084ace8a1",
+          "https://github.com/geoserver/geoserver/pull/7175",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-7x76-57fr-m5r5",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11154"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.4",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-23821",
+        "summary": "GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. A stored cross-site scripting (XSS) vulnerability exists in versions prior to 2.23.4 and 2.24.1 that enables an authenticated administrator with workspace-level privileges to store a JavaScript payload in the GeoServer catalog that will execute in the context of another user's browser when viewed in the GWC Demos Page.  Access to the GWC Demos Page is available to all users although data security may limit users' ability to trigger the XSS. Versions 2.23.4 and 2.24.1 contain a patch for this issue.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2024-03-20T18:15:10.407",
+        "references": [
+          "https://github.com/GeoWebCache/geowebcache/issues/1171",
+          "https://github.com/GeoWebCache/geowebcache/pull/1173",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-88wc-fcj9-q3r9",
+          "https://github.com/GeoWebCache/geowebcache/issues/1171",
+          "https://github.com/GeoWebCache/geowebcache/pull/1173",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-88wc-fcj9-q3r9"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.4",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "2.24.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-24749",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. Prior to versions 2.23.5 and 2.24.3, if GeoServer is deployed in the Windows operating system using an Apache Tomcat web application server, it is possible to bypass existing input validation in the GeoWebCache ByteStreamController class and read arbitrary classpath resources with specific file name extensions. If GeoServer is also deployed as a web archive using the data directory embedded in the `geoserver.war` file (rather than an external data directory), it will likely be possible to read specific resources to gain administrator privileges. However, it is very unlikely that production environments will be using the embedded data directory since, depending on how GeoServer is deployed, it will be erased and re-installed (which would also reset to the default password) either every time the server restarts or every time a new GeoServer WAR is installed and is therefore difficult to maintain. An external data directory will always be used if GeoServer is running in standalone mode (via an installer or a binary). Versions 2.23.5 and 2.24.3 contain a patch for the issue. Some workarounds are available. One may change from a Windows environment to a Linux environment; or change from Apache Tomcat to Jetty application server. One may also disable anonymous access to the embeded GeoWebCache administration and status pages.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2024-07-01T14:15:05.350",
+        "references": [
+          "https://github.com/GeoWebCache/geowebcache/commit/c7f76bd8a1d67c3b986146e7a5e0b14dd64a8fef",
+          "https://github.com/GeoWebCache/geowebcache/pull/1211",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-jhqx-5v5g-mpf3",
+          "http://seclists.org/fulldisclosure/2024/Feb/13",
+          "https://github.com/GeoWebCache/geowebcache/commit/c7f76bd8a1d67c3b986146e7a5e0b14dd64a8fef",
+          "https://github.com/GeoWebCache/geowebcache/pull/1211",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-jhqx-5v5g-mpf3"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.23.5",
+            "exact": null
+          },
+          {
+            "introduced": "2.24.0",
+            "fixed": "2.24.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-34696",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. Starting in version 2.10.0 and prior to versions 2.24.4 and 2.25.1, GeoServer's Server Status page and REST API lists all environment variables and Java properties to any GeoServer user with administrative rights as part of those modules' status message. These variables/properties can also contain sensitive information, such as database passwords or API keys/tokens. Additionally, many community-developed GeoServer container images `export` other credentials from their start-up scripts as environment variables to the GeoServer (`java`) process. The precise scope of the issue depends on which container image is used and how it is configured.\n\nThe `about status` API endpoint which powers the Server Status page is only available to administrators.Depending on the operating environment, administrators might have legitimate access to credentials in other ways, but this issue defeats more sophisticated controls (like break-glass access to secrets or role accounts).By default, GeoServer only allows same-origin authenticated API access. This limits the scope for a third-party attacker to use an administrator’s credentials to gain access to credentials. The researchers who found the vulnerability were unable to determine any other conditions under which the GeoServer REST API may be available more broadly.\n\nUsers should update container images to use GeoServer 2.24.4 or 2.25.1 to get the bug fix. As a workaround, leave environment variables and Java system properties hidden by default. Those who provide the option to re-enable it should communicate the impact and risks so that users can make an informed choice.",
+        "severity": "medium",
+        "cvss_score": 4.9,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2024-07-01T15:15:16.907",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-j59v-vgcr-hxvf",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-j59v-vgcr-hxvf"
+        ],
+        "ranges": [
+          {
+            "introduced": "2.10.0",
+            "fixed": "2.24.4",
+            "exact": null
+          },
+          {
+            "introduced": "2.25.0",
+            "fixed": "2.25.1",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-36401",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. Prior to versions 2.22.6, 2.23.6, 2.24.4, and 2.25.2, multiple OGC request parameters allow Remote Code Execution (RCE) by unauthenticated users through specially crafted input against a default GeoServer installation due to unsafely evaluating property names as XPath expressions.\n\nThe GeoTools library API that GeoServer calls evaluates property/attribute names for feature types in a way that unsafely passes them to the commons-jxpath library which can execute arbitrary code when evaluating XPath expressions. This XPath evaluation is intended to be used only by complex feature types (i.e., Application Schema data stores) but is incorrectly being applied to simple feature types as well which makes this vulnerability apply to **ALL** GeoServer instances. No public PoC is provided but this vulnerability has been confirmed to be exploitable through WFS GetFeature, WFS GetPropertyValue, WMS GetMap, WMS GetFeatureInfo, WMS GetLegendGraphic and WPS Execute requests. This vulnerability can lead to executing arbitrary code.\n\nVersions 2.22.6, 2.23.6, 2.24.4, and 2.25.2 contain a patch for the issue. A workaround exists by removing the `gt-complex-x.y.jar` file from the GeoServer where `x.y` is the GeoTools version (e.g., `gt-complex-31.1.jar` if running GeoServer 2.25.1). This will remove the vulnerable code from GeoServer but may break some GeoServer functionality or prevent GeoServer from deploying if the gt-complex module is needed.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2024-07-01T16:15:04.120",
+        "references": [
+          "https://github.com/Warxim/CVE-2022-41852?tab=readme-ov-file#workaround-for-cve-2022-41852",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-6jj6-gm7p-fcvv",
+          "https://github.com/geotools/geotools/pull/4797",
+          "https://github.com/geotools/geotools/security/advisories/GHSA-w3pj-wh35-fq8w",
+          "https://osgeo-org.atlassian.net/browse/GEOT-7587",
+          "https://github.com/Warxim/CVE-2022-41852?tab=readme-ov-file#workaround-for-cve-2022-41852",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-6jj6-gm7p-fcvv",
+          "https://github.com/geotools/geotools/pull/4797",
+          "https://github.com/geotools/geotools/security/advisories/GHSA-w3pj-wh35-fq8w",
+          "https://osgeo-org.atlassian.net/browse/GEOT-7587",
+          "https://www.vicarius.io/vsociety/posts/geoserver-rce-cve-2024-36401",
+          "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2024-36401"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.22.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.23.0",
+            "fixed": "2.23.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.24.0",
+            "fixed": "2.24.4",
+            "exact": null
+          },
+          {
+            "introduced": "2.25.0",
+            "fixed": "2.25.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-58360",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. From version 2.26.0 to before 2.26.2 and before 2.25.6, an XML External Entity (XXE) vulnerability was identified. The application accepts XML input through a specific endpoint /geoserver/wms operation GetMap. However, this input is not sufficiently sanitized or restricted, allowing an attacker to define external entities within the XML request. This issue has been patched in GeoServer 2.25.6, GeoServer 2.26.3, and GeoServer 2.27.0.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2025-11-25T21:15:56.363",
+        "references": [
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-fjf5-xgmq-5525",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11682",
+          "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2025-58360"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.6",
+            "exact": null
+          },
+          {
+            "introduced": "2.26.0",
+            "fixed": "2.26.2",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-21621",
+        "summary": "GeoServer is an open source server that allows users to share and edit geospatial data. Prior to version 2.25.0, a reflected cross-site scripting (XSS) vulnerability exists in the WMS GetFeatureInfo HTML output format that enables a remote attacker to execute arbitrary JavaScript code in a victim's browser through specially crafted SLD_BODY parameters. This issue has been patched in version 2.25.0.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-11-25T22:15:47.227",
+        "references": [
+          "https://github.com/geoserver/geoserver/commit/dc9ff1c726dd73c884437a123b4ad72b19383c7d",
+          "https://github.com/geoserver/geoserver/pull/7406",
+          "https://github.com/geoserver/geoserver/security/advisories/GHSA-w66h-j855-qr72",
+          "https://osgeo-org.atlassian.net/browse/GEOS-11297"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "2.25.0",
+            "exact": null
+          }
+        ]
+      }
+    ],
+    "osgeo:mapserver": [
+      {
+        "cve_id": "CVE-2009-0839",
+        "summary": "Stack-based buffer overflow in mapserv.c in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2, when the server has a map with a long IMAGEPATH or NAME attribute, allows remote attackers to execute arbitrary code via a crafted id parameter in a query action.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-03-31T18:24:45.827",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2944",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2944",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-0840",
+        "summary": "Heap-based buffer underflow in the readPostBody function in cgiutil.c in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2 allows remote attackers to have an unknown impact via a negative value in the Content-Length HTTP header.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-03-31T18:24:45.860",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2943",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/49545",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2943",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/49545",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-0841",
+        "summary": "Directory traversal vulnerability in mapserv.c in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2, when running on Windows with Cygwin, allows remote attackers to create arbitrary files via a .. (dot dot) in the id parameter.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-03-31T18:24:45.877",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2942",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/49548",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2942",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/49548",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-0842",
+        "summary": "mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2 allows remote attackers to read arbitrary invalid .map files via a full pathname in the map parameter, which triggers the display of partial file contents within an error message, as demonstrated by a /tmp/sekrut.map symlink.",
+        "severity": "medium",
+        "cvss_score": 4.3,
+        "cvss_vector": "AV:N/AC:M/Au:N/C:P/I:N/A:N",
+        "published": "2009-03-31T18:24:45.907",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2941",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2941",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-0843",
+        "summary": "The msLoadQuery function in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2 allows remote attackers to determine the existence of arbitrary files via a full pathname in the queryfile parameter, which triggers different error messages depending on whether this pathname exists.",
+        "severity": "high",
+        "cvss_score": 7.8,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:N/A:N",
+        "published": "2009-03-31T18:24:45.920",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2939",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34520",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2939",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-1176",
+        "summary": "mapserv.c in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2 does not ensure that the string holding the id parameter ends in a '\\0' character, which allows remote attackers to conduct buffer-overflow attacks or have unspecified other impact via a long id parameter in a query action.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-03-31T18:24:45.967",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34603",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34603",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-1177",
+        "summary": "Multiple stack-based buffer overflows in maptemplate.c in mapserv in MapServer 4.x before 4.10.4 and 5.x before 5.2.2 have unknown impact and remote attack vectors.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-03-31T18:24:45.983",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2944",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2009-March/060600.html",
+          "http://secunia.com/advisories/34603",
+          "http://trac.osgeo.org/mapserver/ticket/2944",
+          "http://www.positronsecurity.com/advisories/2009-000.html",
+          "http://www.securityfocus.com/archive/1/502271/100/0/threaded",
+          "http://www.securityfocus.com/bid/34306",
+          "http://www.securitytracker.com/id?1021952",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00147.html",
+          "https://www.redhat.com/archives/fedora-package-announce/2009-April/msg00170.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2009-2281",
+        "summary": "Multiple heap-based buffer underflows in the readPostBody function in cgiutil.c in mapserv in MapServer 4.x through 4.10.4 and 5.x before 5.4.2 allow remote attackers to execute arbitrary code via (1) a crafted Content-Length HTTP header or (2) a large HTTP request, related to an integer overflow that triggers a heap-based buffer overflow.  NOTE: this issue reportedly exists because of an incomplete fix for CVE-2009-0840.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2009-10-23T18:30:00.297",
+        "references": [
+          "http://security.debian.org/pool/updates/main/m/mapserver/mapserver_4.10.0-5.1+etch4.diff.gz",
+          "http://security.debian.org/pool/updates/main/m/mapserver/mapserver_5.0.3-3+lenny4.diff.gz",
+          "http://trac.osgeo.org/mapserver/browser/tags/rel-5-4-2/mapserver/HISTORY.TXT",
+          "http://trac.osgeo.org/mapserver/ticket/2943",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.openwall.com/lists/oss-security/2009/07/01/1",
+          "http://www.openwall.com/lists/oss-security/2009/07/01/6",
+          "http://security.debian.org/pool/updates/main/m/mapserver/mapserver_4.10.0-5.1+etch4.diff.gz",
+          "http://security.debian.org/pool/updates/main/m/mapserver/mapserver_5.0.3-3+lenny4.diff.gz",
+          "http://trac.osgeo.org/mapserver/browser/tags/rel-5-4-2/mapserver/HISTORY.TXT",
+          "http://trac.osgeo.org/mapserver/ticket/2943",
+          "http://www.debian.org/security/2009/dsa-1914",
+          "http://www.openwall.com/lists/oss-security/2009/07/01/1",
+          "http://www.openwall.com/lists/oss-security/2009/07/01/6"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2010-2539",
+        "summary": "Buffer overflow in the msTmpFile function in maputil.c in mapserv in MapServer before 4.10.6 and 5.x before 5.6.4 allows local users to cause a denial of service via vectors involving names of temporary files.",
+        "severity": "low",
+        "cvss_score": 2.1,
+        "cvss_vector": "AV:L/AC:L/Au:N/C:N/I:N/A:P",
+        "published": "2010-08-02T22:00:01.247",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2010-July/066052.html",
+          "http://marc.info/?l=oss-security&m=127973381215859&w=2",
+          "http://marc.info/?l=oss-security&m=127973754121922&w=2",
+          "http://trac.osgeo.org/mapserver/ticket/3484",
+          "http://www.securityfocus.com/bid/41855",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=617312",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/60851",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2010-July/066052.html",
+          "http://marc.info/?l=oss-security&m=127973381215859&w=2",
+          "http://marc.info/?l=oss-security&m=127973754121922&w=2",
+          "http://trac.osgeo.org/mapserver/ticket/3484",
+          "http://www.securityfocus.com/bid/41855",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=617312",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/60851"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2010-2540",
+        "summary": "mapserv.c in mapserv in MapServer before 4.10.6 and 5.x before 5.6.4 does not properly restrict the use of CGI command-line arguments that were intended for debugging, which allows remote attackers to have an unspecified impact via crafted arguments.",
+        "severity": "high",
+        "cvss_score": 10.0,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+        "published": "2010-08-02T22:00:01.297",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2010-July/066052.html",
+          "http://marc.info/?l=oss-security&m=127973381215859&w=2",
+          "http://marc.info/?l=oss-security&m=127973754121922&w=2",
+          "http://trac.osgeo.org/mapserver/ticket/3485",
+          "http://www.securityfocus.com/bid/41855",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/60852",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2010-July/066052.html",
+          "http://marc.info/?l=oss-security&m=127973381215859&w=2",
+          "http://marc.info/?l=oss-security&m=127973754121922&w=2",
+          "http://trac.osgeo.org/mapserver/ticket/3485",
+          "http://www.securityfocus.com/bid/41855",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/60852"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2011-2703",
+        "summary": "Multiple SQL injection vulnerabilities in MapServer before 4.10.7, 5.x before 5.6.7, and 6.x before 6.0.1 allow remote attackers to execute arbitrary SQL commands via vectors related to (1) OGC filter encoding or (2) WMS time support.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+        "published": "2011-08-01T19:55:01.427",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://secunia.com/advisories/45257",
+          "http://secunia.com/advisories/45318",
+          "http://secunia.com/advisories/45368",
+          "http://trac.osgeo.org/mapserver/ticket/3903",
+          "http://www.debian.org/security/2011/dsa-2285",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/11",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/14",
+          "http://www.openwall.com/lists/oss-security/2011/07/20/15",
+          "http://www.securityfocus.com/bid/48720",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=722545",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=723293",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/68682",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://secunia.com/advisories/45257",
+          "http://secunia.com/advisories/45318",
+          "http://secunia.com/advisories/45368",
+          "http://trac.osgeo.org/mapserver/ticket/3903",
+          "http://www.debian.org/security/2011/dsa-2285",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/11",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/14",
+          "http://www.openwall.com/lists/oss-security/2011/07/20/15",
+          "http://www.securityfocus.com/bid/48720",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=722545",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=723293",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/68682"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.5"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.3"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2011-2704",
+        "summary": "Stack-based buffer overflow in MapServer before 4.10.7 and 5.x before 5.6.7 allows remote attackers to execute arbitrary code via vectors related to OGC filter encoding.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+        "published": "2011-08-01T19:55:01.477",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://secunia.com/advisories/45257",
+          "http://secunia.com/advisories/45368",
+          "http://trac.osgeo.org/mapserver/ticket/3903",
+          "http://www.debian.org/security/2011/dsa-2285",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/14",
+          "http://www.openwall.com/lists/oss-security/2011/07/20/15",
+          "http://www.securityfocus.com/bid/48720",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=723293",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/68719",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://secunia.com/advisories/45257",
+          "http://secunia.com/advisories/45368",
+          "http://trac.osgeo.org/mapserver/ticket/3903",
+          "http://www.debian.org/security/2011/dsa-2285",
+          "http://www.openwall.com/lists/oss-security/2011/07/19/14",
+          "http://www.openwall.com/lists/oss-security/2011/07/20/15",
+          "http://www.securityfocus.com/bid/48720",
+          "https://bugzilla.redhat.com/show_bug.cgi?id=723293",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/68719"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.5"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.3"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2011-2975",
+        "summary": "Double free vulnerability in the msAddImageSymbol function in mapsymbol.c in MapServer before 6.0.1 might allow remote attackers to cause a denial of service (application crash) or have unspecified other impact via crafted mapfile data.",
+        "severity": "medium",
+        "cvss_score": 6.8,
+        "cvss_vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+        "published": "2011-08-01T20:55:01.273",
+        "references": [
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://trac.osgeo.org/mapserver/ticket/3939",
+          "http://lists.osgeo.org/pipermail/mapserver-users/2011-July/069430.html",
+          "http://trac.osgeo.org/mapserver/ticket/3939"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.5"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.3"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2013-7262",
+        "summary": "SQL injection vulnerability in the msPostGISLayerSetTimeFilter function in mappostgis.c in MapServer before 6.4.1, when a WMS-Time service is used, allows remote attackers to execute arbitrary SQL commands via a crafted string in a PostGIS TIME filter.",
+        "severity": "medium",
+        "cvss_score": 6.8,
+        "cvss_vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+        "published": "2014-01-05T20:55:04.147",
+        "references": [
+          "http://www.mapserver.org/development/changelog/changelog-6-4.html#changelog-6-4-1",
+          "http://www.securityfocus.com/bid/64671",
+          "https://github.com/mapserver/mapserver/commit/3a10f6b829297dae63492a8c63385044bc6953ed",
+          "https://github.com/mapserver/mapserver/issues/4834",
+          "http://www.mapserver.org/development/changelog/changelog-6-4.html#changelog-6-4-1",
+          "http://www.securityfocus.com/bid/64671",
+          "https://github.com/mapserver/mapserver/commit/3a10f6b829297dae63492a8c63385044bc6953ed",
+          "https://github.com/mapserver/mapserver/issues/4834"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.8.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "4.10.5"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.6.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.0.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.0.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.0.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2017-5522",
+        "summary": "Stack-based buffer overflow in MapServer before 6.0.6, 6.2.x before 6.2.4, 6.4.x before 6.4.5, and 7.0.x before 7.0.4 allows remote attackers to cause a denial of service (crash) or execute arbitrary code via vectors involving WFS get feature requests.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2017-03-15T16:59:00.283",
+        "references": [
+          "http://www.debian.org/security/2017/dsa-3766",
+          "http://www.mapserver.org/development/changelog/changelog-6-0-6.html#changelog-6-0-6",
+          "http://www.mapserver.org/development/changelog/changelog-6-2-4.html#changelog-6-2-4",
+          "http://www.mapserver.org/development/changelog/changelog-6-4.html#changelog-6-4-5",
+          "http://www.mapserver.org/development/changelog/changelog-7-0.html#changelog-7-0-4",
+          "https://github.com/mapserver/mapserver/commit/e52a436c0e1c5e9f7ef13428dba83194a800f4df",
+          "https://lists.osgeo.org/pipermail/mapserver-dev/2017-January/015007.html",
+          "http://www.debian.org/security/2017/dsa-3766",
+          "http://www.mapserver.org/development/changelog/changelog-6-0-6.html#changelog-6-0-6",
+          "http://www.mapserver.org/development/changelog/changelog-6-2-4.html#changelog-6-2-4",
+          "http://www.mapserver.org/development/changelog/changelog-6-4.html#changelog-6-4-5",
+          "http://www.mapserver.org/development/changelog/changelog-7-0.html#changelog-7-0-4",
+          "https://github.com/mapserver/mapserver/commit/e52a436c0e1c5e9f7ef13428dba83194a800f4df",
+          "https://lists.osgeo.org/pipermail/mapserver-dev/2017-January/015007.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.2.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.3"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "6.4.4"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.2"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "7.0.3"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2010-1678",
+        "summary": "Mapserver 5.2, 5.4 and 5.6 before 5.6.5-2 improperly validates symbol index values during Mapfile parsing.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "published": "2019-10-29T21:15:10.653",
+        "references": [
+          "https://people.canonical.com/~ubuntu-security/cve/2010/CVE-2010-1678.html",
+          "https://security-tracker.debian.org/tracker/CVE-2010-1678",
+          "https://trac.osgeo.org/mapserver/ticket/3641",
+          "https://people.canonical.com/~ubuntu-security/cve/2010/CVE-2010-1678.html",
+          "https://security-tracker.debian.org/tracker/CVE-2010-1678",
+          "https://trac.osgeo.org/mapserver/ticket/3641"
+        ],
+        "ranges": [
+          {
+            "introduced": "5.6.0",
+            "fixed": "5.6.5.-2",
+            "exact": null
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.2.0"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "5.4.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-32062",
+        "summary": "MapServer before 7.0.8, 7.1.x and 7.2.x before 7.2.3, 7.3.x and 7.4.x before 7.4.5, and 7.5.x and 7.6.x before 7.6.3 does not properly enforce the MS_MAP_NO_PATH and MS_MAP_PATTERN restrictions that are intended to control the locations from which a mapfile may be loaded (with MapServer CGI).",
+        "severity": "medium",
+        "cvss_score": 5.3,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "published": "2021-05-06T13:15:12.723",
+        "references": [
+          "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FNORAZCJ7AIPJFUY6WGLYIA3QVPWFXFY/",
+          "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NYVWUC4EOW5WZAZGPLRTZS5QXNUEBPQ5/",
+          "https://mapserver.org/development/changelog/changelog-7-0.html",
+          "https://mapserver.org/development/changelog/changelog-7-2.html",
+          "https://mapserver.org/development/changelog/changelog-7-4.html",
+          "https://mapserver.org/development/changelog/changelog-7-6.html",
+          "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FNORAZCJ7AIPJFUY6WGLYIA3QVPWFXFY/",
+          "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NYVWUC4EOW5WZAZGPLRTZS5QXNUEBPQ5/",
+          "https://mapserver.org/development/changelog/changelog-7-0.html",
+          "https://mapserver.org/development/changelog/changelog-7-2.html",
+          "https://mapserver.org/development/changelog/changelog-7-4.html",
+          "https://mapserver.org/development/changelog/changelog-7-6.html"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "7.0.8",
+            "exact": null
+          },
+          {
+            "introduced": "7.1.0",
+            "fixed": "7.2.3",
+            "exact": null
+          },
+          {
+            "introduced": "7.3.0",
+            "fixed": "7.4.5",
+            "exact": null
+          },
+          {
+            "introduced": "7.5.0",
+            "fixed": "7.6.3",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-59431",
+        "summary": "MapServer is a system for developing web-based GIS applications. Prior to 8.4.1, the XML Filter Query directive PropertyName is vulnerably to Boolean-based SQL injection. It seems like expression checking is bypassed by introducing double quote characters in the PropertyName. Allowing to manipulate backend database queries. This vulnerability is fixed in 8.4.1.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2025-09-19T20:15:40.177",
+        "references": [
+          "https://github.com/MapServer/MapServer/security/advisories/GHSA-256m-rx4h-r55w"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "8.4.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2026-33721",
+        "summary": "MapServer is a system for developing web-based GIS applications. Starting in version 4.2 and prior to version 8.6.1, a heap-buffer-overflow write in MapServer’s SLD (Styled Layer Descriptor) parser lets a remote, unauthenticated attacker crash the MapServer process by sending a crafted SLD with more than 100 Threshold elements inside a ColorMap/Categorize structure (commonly reachable via WMS GetMap with SLD_BODY). Version 8.6.1 patches the issue.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "published": "2026-03-27T01:16:19.670",
+        "references": [
+          "https://github.com/MapServer/MapServer/releases/tag/rel-8-6-1",
+          "https://github.com/MapServer/MapServer/security/advisories/GHSA-cv4m-mr84-fgjp",
+          "https://lists.debian.org/debian-lts-announce/2026/04/msg00017.html"
+        ],
+        "ranges": [
+          {
+            "introduced": "4.2.0",
+            "fixed": "8.6.1",
+            "exact": null
+          }
+        ]
+      }
+    ],
+    "qgis:qgis": [],
+    "deegree:deegree": [],
+    "geonetwork-opensource:geonetwork": [],
     "openlayers:openlayers": [],
     "leafletjs:leaflet": [],
     "mapbox:mapbox-gl-js": [],

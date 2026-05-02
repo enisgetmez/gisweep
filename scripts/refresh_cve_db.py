@@ -34,13 +34,37 @@ _CPE_VERSION_INDEX = 5
 _CPE_MIN_FIELDS = 6
 
 
-PRODUCTS: dict[str, str] = {
-    "esri:arcgis_server": "cpe:2.3:a:esri:arcgis_server",
-    "esri:arcgis_api_for_javascript": "cpe:2.3:a:esri:arcgis_api_for_javascript",
-    "openlayers:openlayers": "cpe:2.3:a:openlayers:openlayers",
-    "leafletjs:leaflet": "cpe:2.3:a:leafletjs:leaflet",
-    "mapbox:mapbox-gl-js": "cpe:2.3:a:mapbox:mapbox-gl-js",
-    "cesiumgs:cesium": "cpe:2.3:a:cesiumgs:cesium",
+PRODUCTS: dict[str, list[str]] = {
+    # ArcGIS server-side
+    "esri:arcgis_server": ["cpe:2.3:a:esri:arcgis_server"],
+    "esri:arcgis_api_for_javascript": ["cpe:2.3:a:esri:arcgis_api_for_javascript"],
+    # Open-source OGC servers (each canonical key may aggregate multiple CPE
+    # vendor strings used by NVD over time)
+    "osgeo:geoserver": [
+        "cpe:2.3:a:osgeo:geoserver",
+        "cpe:2.3:a:geoserver:geoserver",
+    ],
+    "osgeo:mapserver": [
+        "cpe:2.3:a:osgeo:mapserver",
+        "cpe:2.3:a:mapserver:mapserver",
+    ],
+    "qgis:qgis": ["cpe:2.3:a:qgis:qgis"],
+    "deegree:deegree": ["cpe:2.3:a:deegree:deegree"],
+    "geonetwork-opensource:geonetwork": [
+        "cpe:2.3:a:geonetwork-opensource:geonetwork",
+        "cpe:2.3:a:geonetwork:geonetwork",
+    ],
+    # Client-side JS libraries (fingerprinted by the Phase 4 web crawler)
+    "openlayers:openlayers": ["cpe:2.3:a:openlayers:openlayers"],
+    "leafletjs:leaflet": ["cpe:2.3:a:leafletjs:leaflet"],
+    "mapbox:mapbox-gl-js": [
+        "cpe:2.3:a:mapbox:mapbox-gl-js",
+        "cpe:2.3:a:mapbox:mapbox_gl_js",
+    ],
+    "cesiumgs:cesium": [
+        "cpe:2.3:a:cesiumgs:cesium",
+        "cpe:2.3:a:cesium:cesium",
+    ],
 }
 
 
@@ -82,14 +106,29 @@ async def _fetch_all(
     if api_key:
         headers["apiKey"] = api_key
     out: dict[str, list[dict[str, Any]]] = {}
+    request_index = 0
     async with httpx.AsyncClient(timeout=120.0, headers=headers) as client:
-        for index, (product_key, cpe) in enumerate(PRODUCTS.items()):
-            if index > 0:
-                await asyncio.sleep(rate_delay)
+        for product_key, cpe_aliases in PRODUCTS.items():
             print(f"fetching {product_key} …", file=sys.stderr)  # noqa: T201
-            records = await _fetch_product(client, cpe, results_per_page, rate_delay)
-            print(f"  {len(records)} records", file=sys.stderr)  # noqa: T201
-            out[product_key] = records
+            collected: dict[str, dict[str, Any]] = {}
+            for cpe in cpe_aliases:
+                if request_index > 0:
+                    await asyncio.sleep(rate_delay)
+                request_index += 1
+                records = await _fetch_product(client, cpe, results_per_page, rate_delay)
+                for record in records:
+                    cve_id = record["cve_id"]
+                    if cve_id in collected:
+                        existing = collected[cve_id]
+                        existing_ranges = existing.get("ranges") or []
+                        for new_range in record.get("ranges") or []:
+                            if new_range not in existing_ranges:
+                                existing_ranges.append(new_range)
+                        existing["ranges"] = existing_ranges
+                    else:
+                        collected[cve_id] = record
+            print(f"  {len(collected)} records", file=sys.stderr)  # noqa: T201
+            out[product_key] = list(collected.values())
     return out
 
 
