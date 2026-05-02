@@ -1,0 +1,857 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-02T23:31:59.807570+00:00",
+  "source": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+  "products": {
+    "esri:arcgis_server": [
+      {
+        "cve_id": "CVE-2012-4949",
+        "summary": "SQL injection vulnerability in ESRI ArcGIS 10.1 allows remote authenticated users to execute arbitrary SQL commands via the where parameter to a query URI for a REST service.",
+        "severity": "medium",
+        "cvss_score": 6.5,
+        "cvss_vector": "AV:N/AC:L/Au:S/C:P/I:P/A:P",
+        "published": "2012-11-14T12:30:59.537",
+        "references": [
+          "http://www.kb.cert.org/vuls/id/795644",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/79977",
+          "http://www.kb.cert.org/vuls/id/795644",
+          "https://exchange.xforce.ibmcloud.com/vulnerabilities/79977"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2013-5221",
+        "summary": "The mobile-upload feature in Esri ArcGIS for Server 10.1 through 10.2 allows remote authenticated users to upload .exe files by leveraging (1) publisher or (2) administrator privileges.",
+        "severity": "low",
+        "cvss_score": 3.5,
+        "cvss_vector": "AV:N/AC:M/Au:S/C:N/I:P/A:N",
+        "published": "2013-09-24T10:35:52.017",
+        "references": [
+          "http://support.esri.com/en/downloads/patches-servicepacks/view/productid/66/metaid/2009",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41497",
+          "http://support.esri.com/en/downloads/patches-servicepacks/view/productid/66/metaid/2009",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41497"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.2"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2013-5222",
+        "summary": "Multiple cross-site scripting (XSS) vulnerabilities in ESRI ArcGIS for Server 10.1 allow remote authenticated users to inject arbitrary web script or HTML via unspecified vectors.",
+        "severity": "low",
+        "cvss_score": 3.5,
+        "cvss_vector": "AV:N/AC:M/Au:S/C:N/I:P/A:N",
+        "published": "2013-12-30T04:53:07.397",
+        "references": [
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41494",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41498",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41494",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41498"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2013-7231",
+        "summary": "Cross-site scripting (XSS) vulnerability in the Mobile Content Server in ESRI ArcGIS for Server 10.1 and 10.2 allows remote authenticated users to inject arbitrary web script or HTML via unspecified vectors, a different vulnerability than CVE-2013-5222.",
+        "severity": "low",
+        "cvss_score": 3.5,
+        "cvss_vector": "AV:N/AC:M/Au:S/C:N/I:P/A:N",
+        "published": "2013-12-30T04:53:07.427",
+        "references": [
+          "http://support.esri.com/en/downloads/patches-servicepacks/view/productid/66/metaid/2009",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41468",
+          "http://support.esri.com/en/downloads/patches-servicepacks/view/productid/66/metaid/2009",
+          "http://support.esri.com/en/knowledgebase/techarticles/detail/41468"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.2"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2014-5121",
+        "summary": "Multiple cross-site scripting (XSS) vulnerabilities in ESRI ArcGIS for Server 10.1.1 allow remote attackers to inject arbitrary web script or HTML via unspecified parameters.",
+        "severity": "medium",
+        "cvss_score": 4.3,
+        "cvss_vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+        "published": "2014-08-22T14:55:07.767",
+        "references": [
+          "http://packetstormsecurity.com/files/127959/ArcGIS-For-Server-10.1.1-XSS-Open-Redirect.html",
+          "http://www.securityfocus.com/archive/1/533189/100/0/threaded",
+          "http://www.securitytracker.com/id/1030752",
+          "http://packetstormsecurity.com/files/127959/ArcGIS-For-Server-10.1.1-XSS-Open-Redirect.html",
+          "http://www.securityfocus.com/archive/1/533189/100/0/threaded",
+          "http://www.securitytracker.com/id/1030752"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2014-5122",
+        "summary": "Open redirect vulnerability in ESRI ArcGIS for Server 10.1.1 allows remote attackers to redirect users to arbitrary web sites and conduct phishing attacks via an unspecified parameter, related to login.",
+        "severity": "medium",
+        "cvss_score": 5.8,
+        "cvss_vector": "AV:N/AC:M/Au:N/C:P/I:P/A:N",
+        "published": "2014-08-22T14:55:07.843",
+        "references": [
+          "http://packetstormsecurity.com/files/127959/ArcGIS-For-Server-10.1.1-XSS-Open-Redirect.html",
+          "http://www.securityfocus.com/archive/1/533189/100/0/threaded",
+          "http://www.securityfocus.com/bid/69341",
+          "http://www.securitytracker.com/id/1030752",
+          "http://packetstormsecurity.com/files/127959/ArcGIS-For-Server-10.1.1-XSS-Open-Redirect.html",
+          "http://www.securityfocus.com/archive/1/533189/100/0/threaded",
+          "http://www.securityfocus.com/bid/69341",
+          "http://www.securitytracker.com/id/1030752"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.1.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2020-35712",
+        "summary": "Esri ArcGIS Server before 10.8 is vulnerable to SSRF in some configurations.",
+        "severity": "critical",
+        "cvss_score": 9.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "published": "2020-12-26T00:15:12.213",
+        "references": [
+          "https://support.esri.com/en/bugs/nimbus/QlVHLTAwMDEyODA2MA==",
+          "https://support.esri.com/en/technical-article/000022931",
+          "https://support.esri.com/en/bugs/nimbus/QlVHLTAwMDEyODA2MA==",
+          "https://support.esri.com/en/technical-article/000022931"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.8",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29106",
+        "summary": "A reflected Cross Site Scripting (XSS) vulnerability in Esri ArcGIS Server version 10.8.1 and below may allow a remote attacker able to convince a user to click on a crafted link which could potentially execute arbitrary JavaScript code in the user’s browser.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-07-10T15:15:07.737",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.9.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29107",
+        "summary": "A stored Cross Site Scripting (XXS) vulnerability in ArcGIS Server Manager version 10.8.1 and below may allow a remote unauthenticated attacker to pass and store malicious strings in the ArcGIS Server Manager application.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-07-10T15:15:07.927",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.6.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29102",
+        "summary": "A Server-Side Request Forgery (SSRF) vulnerability in ArcGIS Server Manager version 10.8.1 and below may allow a remote, unauthenticated attacker to forge GET requests to arbitrary URLs from the system, potentially leading to network enumeration or facilitating other attacks.",
+        "severity": "critical",
+        "cvss_score": 9.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "published": "2021-07-11T02:15:07.147",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.9.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29103",
+        "summary": "A reflected Cross Site Scripting (XXS) vulnerability in ArcGIS Server version 10.8.1 and below may allow a remote attacker able to convince a user to click on a crafted link which could potentially execute arbitrary JavaScript code in the user’s browser.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-07-11T02:15:07.537",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.9.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29104",
+        "summary": "A stored Cross Site Scripting (XXS) vulnerability in ArcGIS Server Manager version 10.8.1 and below may allow a remote unauthenticated attacker to pass and store malicious strings in the ArcGIS Server Manager application.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-07-11T02:15:07.603",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.9.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29105",
+        "summary": "A stored Cross Site Scripting (XSS) vulnerability in Esri ArcGIS Server Services Directory version 10.8.1 and below may allow a remote authenticated attacker to pass and store malicious strings in the ArcGIS Services Directory.",
+        "severity": "medium",
+        "cvss_score": 5.4,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-07-11T02:15:07.667",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": "10.9.0",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2021-29116",
+        "summary": "A stored Cross Site Scripting (XSS) vulnerability in Esri ArcGIS Server feature services versions 10.8.1 and 10.9 (only) feature services may allow a remote, unauthenticated attacker to pass and store malicious strings via crafted queries which when accessed could potentially execute arbitrary JavaScript code in the user’s browser.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2021-12-07T11:15:08.020",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-2-patch-is-now-available",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-security-2021-update-2-patch-is-now-available"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.8.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.9.0"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2022-38199",
+        "summary": "A remote file download issue can occur in some capabilities of Esri ArcGIS Server web services that may in some edge cases allow a remote, unauthenticated attacker to induce an unsuspecting victim to launch a process in the victim's PATH environment. Current browsers provide users with warnings against running unsigned executables downloaded from the internet.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2022-10-25T17:15:55.473",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/administration/administration/arcgis-server-security-2022-update-1-patch",
+          "https://www.esri.com/arcgis-blog/products/administration/administration/arcgis-server-security-2022-update-1-patch"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.7.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.8.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.9.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2022-38200",
+        "summary": "A cross site scripting vulnerability exists in some map service configurations of ArcGIS Server versions 10.8.1 and 10.7.1. Specifically crafted web requests can execute arbitrary JavaScript in the context of the victim's browser.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2022-10-25T17:15:55.527",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-map-service-security-2022-update-1-is-now-available",
+          "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/arcgis-server-map-service-security-2022-update-1-is-now-available"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.7.1"
+          },
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "10.8.1"
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-25840",
+        "summary": "There is a Cross-site Scripting vulnerability in ArcGIS Server in versions 11.1 and below that may allow a remote, authenticated attacker to create a crafted link which onmouseover wont execute but could potentially render an image in the victims browser.  The privileges required to execute this attack are high.",
+        "severity": "low",
+        "cvss_score": 3.4,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:N/I:L/A:N",
+        "published": "2023-07-21T19:15:10.160",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-security-2023-update-1-patch-available/",
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-security-2023-update-1-patch-available/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.8.1",
+            "fixed": "11.1",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-25841",
+        "summary": "There is a stored Cross-site Scripting vulnerability in Esri ArcGIS Server versions 11.0 and below on Windows and Linux platforms that may allow a remote, unauthenticated attacker to create crafted content which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.\n\nMitigation: Disable anonymous access to ArcGIS Feature services with edit capabilities.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2023-07-21T19:15:10.260",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-security-2023-update-1-patch-available/",
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-security-2023-update-1-patch-available/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.8.1",
+            "fixed": "11.1",
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2023-25848",
+        "summary": "ArcGIS Enterprise Server versions 11.0 and below have an information disclosure vulnerability where a remote, unauthorized attacker may submit a crafted query that may result in a low severity information disclosure issue. \n\nThe information disclosed is limited to a single attribute in a database connection string. No business data is disclosed.",
+        "severity": "medium",
+        "cvss_score": 5.3,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "published": "2023-08-25T19:15:08.670",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-map-and-feature-service-security-2023-update-1-patch/",
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/announcements/arcgis-server-map-and-feature-service-security-2023-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.8.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-10904",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:39.990",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51942",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.167",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51944",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.327",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51945",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.483",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51946",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.640",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51947",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.797",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51948",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:40.953",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51949",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:41.110",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51950",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:41.277",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51951",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:41.437",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51952",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:41.593",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51953",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:41.747",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51954",
+        "summary": "There is an improper access control issue in ArcGIS Server versions 11.3 and below on Windows and Linux which, under unique circumstances, could allow a remote, low‑privileged authenticated attacker to access secure services published to a standalone (unfederated) ArcGIS Server instance. Successful exploitation results in unauthorized access to protected services outside the attacker’s originally assigned authorization boundary, constituting a scope change. If exploited, this issue would have a high impact on confidentiality, a low impact on integrity, and no impact on the availability of the software.",
+        "severity": "high",
+        "cvss_score": 8.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N",
+        "published": "2025-03-03T20:15:41.903",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51956",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:42.063",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51957",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:42.217",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51958",
+        "summary": "There is a path traversal vulnerability in ESRI ArcGIS Server versions 11.3 and below.  Successful exploitation may allow a remote authenticated attacker with admin privileges to traverse the file system to access files outside of the intended directory.  There is no impact to integrity or availability due to the nature of the files that can be accessed, but there is a potential high impact to confidentiality.",
+        "severity": "medium",
+        "cvss_score": 4.9,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2025-03-03T20:15:42.397",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51959",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:42.550",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51960",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:42.707",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51961",
+        "summary": "There is a local file inclusion vulnerability in ArcGIS Server 11.3 and below that may allow a remote, unauthenticated attacker to craft a URL that could potentially disclose sensitive configuration information by reading internal files from the remote server.  Due to the nature of the files accessible in this vulnerability the impact to confidentiality is High there is no impact to both integrity or availability.",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2025-03-03T20:15:42.863",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51962",
+        "summary": "A SQL injection vulnerability in ArcGIS Server allows an EDIT operation to modify column properties in a manner that could lead to SQL injection when performed by a remote authenticated user requiring elevated, non‑administrative privileges. Exploitation is restricted to users with advanced application‑specific permissions, indicating high privileges are required. Successful exploitation would have a high impact on integrity and confidentiality, with no impact on availability.",
+        "severity": "high",
+        "cvss_score": 8.7,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N",
+        "published": "2025-03-03T20:15:43.043",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51963",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and follow that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:43.240",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-51966",
+        "summary": "There is a path traversal vulnerability in ESRI ArcGIS Server versions 11.3 and below.  Successful exploitation may allow a remote authenticated attacker with admin privileges to traverse the file system to access files outside of the intended directory.  There is no impact to integrity or availability due to the nature of the files that can be accessed, but there is a potential high impact to confidentiality.",
+        "severity": "medium",
+        "cvss_score": 4.9,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+        "published": "2025-03-03T20:15:43.387",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2024-5888",
+        "summary": "There is a stored Cross-site Scripting vulnerability in ArcGIS Server for versions 11.3 and below that may allow a remote, authenticated attacker to create a stored crafted link which when clicked could potentially execute arbitrary JavaScript code in the victim’s browser.  The privileges required to execute this attack are high, requiring publisher capabilities.  The impact is low to both confidentiality and integrity while having no impact to availability.",
+        "severity": "medium",
+        "cvss_score": 4.8,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2025-03-03T20:15:43.940",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-security-2025-update-1-patch/"
+        ],
+        "ranges": [
+          {
+            "introduced": "10.9.1",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      },
+      {
+        "cve_id": "CVE-2025-57870",
+        "summary": "A SQL Injection vulnerability exists in Esri ArcGIS Server versions 11.3, 11.4 and 11.5 on Windows, Linux and Kubernetes. This vulnerability allows a remote, unauthenticated attacker to execute arbitrary SQL commands via a specific ArcGIS Feature Service operation. Successful exploitation can potentially result in unauthorized access, modification, or deletion of data from the underlying Enterprise Geodatabase.",
+        "severity": "critical",
+        "cvss_score": 10.0,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "published": "2025-10-22T15:15:51.830",
+        "references": [
+          "https://www.esri.com/arcgis-blog/products/trust-arcgis/administration/arcgis-server-feature-services-security-patch"
+        ],
+        "ranges": [
+          {
+            "introduced": "11.3",
+            "fixed": null,
+            "exact": null
+          }
+        ]
+      }
+    ],
+    "esri:arcgis_api_for_javascript": [],
+    "openlayers:openlayers": [],
+    "leafletjs:leaflet": [],
+    "mapbox:mapbox-gl-js": [],
+    "cesiumgs:cesium": []
+  }
+}
