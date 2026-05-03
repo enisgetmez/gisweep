@@ -35,6 +35,7 @@ from gisweep.core.runner import Runner
 from gisweep.discovery.arcgis_enum import ArcGISEnumerator, ArcGISServiceRef
 from gisweep.outputs.console import ConsoleWriter
 from gisweep.outputs.registry import build_writer, parse_output_arg
+from gisweep.runtime._progress import progress_callback
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -118,7 +119,8 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
             return 2
 
         runner = Runner(ctx)
-        findings, meta = await runner.run(targets)
+        with progress_callback(console) as on_progress:
+            findings, meta = await runner.run(targets, on_progress=on_progress)
         findings = apply_overlay(findings, scan_id=ctx.scan_id)
 
     _emit_outputs(findings, meta, request.outputs, console)

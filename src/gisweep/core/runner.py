@@ -1,14 +1,9 @@
-"""Async scan orchestrator.
-
-Phase 1 ships only the skeleton — full discovery/dispatch wiring lands in
-Phase 2 with the ArcGIS scanner. The contract is intentionally narrow so the
-CLI can construct one for ``checks list``-style commands without dragging in
-network code.
-"""
+"""Async scan orchestrator."""
 
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
@@ -38,6 +33,19 @@ class ScanMeta:
     counts_by_severity: dict[Severity, int] = field(default_factory=dict)
 
 
+@dataclass(frozen=True, slots=True)
+class CheckProgress:
+    """Snapshot passed to a runner ``on_progress`` callback after each unit."""
+
+    completed: int
+    total: int
+    check_id: str
+    target_url: str
+
+
+ProgressCallback = Callable[[CheckProgress], None]
+
+
 class Runner:
     def __init__(self, ctx: Context, checks: Iterable[type[Check]] | None = None) -> None:
         self._ctx = ctx
@@ -58,12 +66,18 @@ class Runner:
             result.append(cls)
         return result
 
-    async def run(self, targets: Iterable[TargetRef]) -> tuple[list[Finding], ScanMeta]:
+    async def run(
+        self,
+        targets: Iterable[TargetRef],
+        *,
+        on_progress: ProgressCallback | None = None,
+    ) -> tuple[list[Finding], ScanMeta]:
         targets_list = list(targets)
         started = datetime.now(tz=UTC)
         findings: list[Finding] = []
 
         selected = self.selected_checks()
+        total_units = len(selected) * len(targets_list)
         self._log.info(
             "scan.started",
             target_count=len(targets_list),
@@ -72,6 +86,7 @@ class Runner:
         )
 
         threshold = self._ctx.options.severity_threshold
+        completed = 0
         for cls in selected:
             instance = cls()
             for target in targets_list:
@@ -82,6 +97,16 @@ class Runner:
                         if f.severity.at_least(threshold)
                     ]
                 )
+                completed += 1
+                if on_progress is not None:
+                    on_progress(
+                        CheckProgress(
+                            completed=completed,
+                            total=total_units,
+                            check_id=cls.meta.id,
+                            target_url=target.url,
+                        )
+                    )
 
         finished = datetime.now(tz=UTC)
         counts: dict[Severity, int] = dict.fromkeys(Severity, 0)
