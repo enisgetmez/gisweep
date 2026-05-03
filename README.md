@@ -3,6 +3,8 @@
 > GIS vulnerability scanner — ArcGIS REST, OGC (WMS/WFS), embedded web maps, secret
 > detection, KVKK/GDPR-aware.
 
+![gisweep arcgis demo](docs/demo/demo.gif)
+
 `gisweep` is an open-source CLI that audits GIS surfaces for the misconfigurations
 nobody else looks for: ArcGIS REST services exposing anonymous write capabilities,
 GeoServer/MapServer endpoints with public WFS-Transactional, admin directories
