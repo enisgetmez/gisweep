@@ -63,6 +63,7 @@ def test_arcgis_subcommand_writes_json_and_exits_one(tmp_path: Path) -> None:
     respx.get(url__regex=rf"{ROOT}/Citizen/FeatureServer/0/query\?.*").mock(
         return_value=Response(200, json={"count": 12345})
     )
+    respx.get(url__regex=r"https://ipapi\.co/.*").mock(return_value=Response(200, text="TR"))
 
     out_json = tmp_path / "report.json"
     result = CliRunner().invoke(

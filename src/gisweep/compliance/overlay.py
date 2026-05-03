@@ -10,26 +10,51 @@ mutated.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
+from urllib.parse import urlparse
 
+from gisweep.compliance.geo import lookup_country, safe_country_codes
 from gisweep.core.finding import Evidence, Finding, Severity, TargetKind, TargetRef
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    pass
+    from gisweep.core.http import HttpClient
 
 _PII_THRESHOLD_FOR_AGGREGATE = 5
+# A re-identification heuristic: ARC-014 PII layer + a confirmed point geometry
+# (high precision by definition) is the minimum signal that the layer can
+# uniquely identify subjects from coordinates alone.
+_PRECISION_GEOMETRY_TAGS: frozenset[str] = frozenset({"esriGeometryPoint", "Point"})
 
 
 def apply_overlay(findings: Iterable[Finding], *, scan_id: str) -> list[Finding]:
-    """Return ``list(findings) + [aggregate findings]``."""
+    """Synchronous overlay (COMP-001 / COMP-003 / COMP-004)."""
     materialised = list(findings)
     extras: list[Finding] = []
     extras.extend(_comp_001_pii_aggregate(materialised, scan_id))
     extras.extend(_comp_003_admin_plus_data(materialised, scan_id))
+    extras.extend(_comp_004_precision_plus_pii(materialised, scan_id))
     return materialised + extras
+
+
+async def apply_overlay_async(
+    findings: Iterable[Finding],
+    *,
+    scan_id: str,
+    http: HttpClient | None = None,
+) -> list[Finding]:
+    """Async overlay that adds COMP-002 (cross-border transfer) on top of the
+    synchronous rules. Falls back to the sync overlay if no HTTP client is
+    available, so callers can opt into the geo-resolving rule per scan.
+    """
+    base = apply_overlay(findings, scan_id=scan_id)
+    if http is None:
+        return base
+    extras = await _comp_002_cross_border(base, scan_id=scan_id, http=http)
+    return base + extras
 
 
 def _comp_001_pii_aggregate(findings: list[Finding], scan_id: str) -> list[Finding]:
@@ -129,6 +154,158 @@ def _comp_003_admin_plus_data(findings: list[Finding], scan_id: str) -> list[Fin
             scan_id=scan_id,
         )
     ]
+
+
+def _comp_004_precision_plus_pii(findings: list[Finding], scan_id: str) -> list[Finding]:
+    """Re-identification risk: ARC-014 PII finding on a layer whose evidence
+    notes flag a high-precision geometry (esriGeometryPoint or Point)."""
+    flagged: list[Finding] = []
+    for finding in findings:
+        if finding.check_id != "ARC-014":
+            continue
+        notes_blob = "\n".join(finding.evidence.notes).lower()
+        if any(tag.lower() in notes_blob for tag in _PRECISION_GEOMETRY_TAGS):
+            flagged.append(finding)
+            continue
+        # The ARC-014 description always cites the layer URL; check the
+        # cached ARC-017 / ARC-013 notes via overall finding tags as a soft
+        # signal. Without explicit point-geometry evidence we stay silent
+        # rather than emit false positives.
+    if not flagged:
+        return []
+    layers = sorted({f.target.url for f in flagged})
+    return [
+        Finding(
+            check_id="COMP-004",
+            title="Re-identification risk — high-precision geometry plus PII fields",
+            severity=Severity.HIGH,
+            target=flagged[0].target,
+            description=(
+                f"{len(flagged)} layer(s) carry both PII-pattern fields and a "
+                "point-geometry data plane. Coordinate precision under a few "
+                "metres is enough to single out a household; combined with PII "
+                "fields like TCKN or e-mail, the dataset can re-identify "
+                "individuals even when names are absent."
+            ),
+            evidence=Evidence(
+                matched=f"{len(flagged)} layers",
+                notes=[*[f"layer={url}" for url in layers[:10]]],
+            ),
+            remediation=(
+                "Either (a) drop the PII fields from the public layer and "
+                "publish only aggregated counts per administrative unit, or "
+                "(b) coarsen the geometry to a polygon at neighbourhood "
+                "precision before exposing it. Document the residual risk in "
+                "the KVKK VERBİS / GDPR Article 30 record."
+            ),
+            references=[
+                "https://gdpr-info.eu/art-4-gdpr/",
+                "https://www.mevzuat.gov.tr/MevzuatMetin/1.5.6698.pdf",
+            ],
+            cwe="CWE-359",
+            kvkk_articles=["m12"],
+            gdpr_articles=["art4-1", "art32"],
+            tags=["compliance", "aggregate", "re-identification"],
+            discovered_at=datetime.now(tz=UTC),
+            scan_id=scan_id,
+        )
+    ]
+
+
+async def _comp_002_cross_border(
+    findings: list[Finding],
+    *,
+    scan_id: str,
+    http: HttpClient,
+) -> list[Finding]:
+    """KVKK Madde 9 / GDPR Chapter V cross-border transfer.
+
+    For every finding's host, resolve the country code and emit one COMP-002
+    per host that lives outside the KVKK or GDPR safe destinations *and*
+    receives PII / data-bearing traffic from the scan.
+    """
+    if not findings:
+        return []
+    kvkk_safe, gdpr_safe = safe_country_codes()
+    cache: dict[str, str | None] = {}
+
+    @dataclass
+    class _HostBreach:
+        country: str
+        checks: set[str]
+        kvkk: bool
+        gdpr: bool
+
+    offending: dict[str, _HostBreach] = {}
+
+    pii_check_ids: frozenset[str] = frozenset(
+        {"ARC-001", "ARC-002", "ARC-014", "ARC-016", "ARC-017", "OGC-001", "OGC-005"}
+    )
+
+    for finding in findings:
+        if finding.check_id not in pii_check_ids:
+            continue
+        host = urlparse(finding.target.url).hostname
+        if not host:
+            continue
+        country = await lookup_country(http, host, cache=cache)
+        if country is None:
+            continue
+        kvkk_breach = country not in kvkk_safe
+        gdpr_breach = country not in gdpr_safe
+        if not (kvkk_breach or gdpr_breach):
+            continue
+        entry = offending.setdefault(
+            host,
+            _HostBreach(country=country, checks=set(), kvkk=kvkk_breach, gdpr=gdpr_breach),
+        )
+        entry.checks.add(finding.check_id)
+
+    extras: list[Finding] = []
+    for host, info in offending.items():
+        check_ids = sorted(info.checks)
+        country = info.country
+        kvkk_articles = ["m9"] if info.kvkk else []
+        gdpr_articles = ["chV"] if info.gdpr else []
+        notes = [
+            f"host={host}",
+            f"country={country}",
+            f"co_occurring_checks={','.join(check_ids)}",
+        ]
+        extras.append(
+            Finding(
+                check_id="COMP-002",
+                title=f"Cross-border data exposure — host hosted in {country}",
+                severity=Severity.MEDIUM,
+                target=TargetRef(url=f"https://{host}", kind=TargetKind.UNKNOWN),
+                description=(
+                    f"`{host}` resolves to a server hosted in {country}, which is "
+                    "outside the KVKK / GDPR safe-transfer destination list. "
+                    "Personal data observed in this scan flows across that "
+                    "border without an explicit adequacy decision or transfer "
+                    "agreement."
+                ),
+                evidence=Evidence(matched=country, notes=notes),
+                remediation=(
+                    "Either (a) move the data plane to a host inside Türkiye / "
+                    "EEA / a country with a current KVKK / GDPR adequacy "
+                    "decision, or (b) document the lawful basis for the "
+                    "international transfer (Standard Contractual Clauses, "
+                    "explicit consent, public interest)."
+                ),
+                references=[
+                    "https://www.mevzuat.gov.tr/MevzuatMetin/1.5.6698.pdf",
+                    "https://gdpr-info.eu/chapter-5/",
+                ],
+                cwe="CWE-200",
+                kvkk_articles=kvkk_articles,
+                gdpr_articles=gdpr_articles,
+                tags=["compliance", "cross-border", host, country],
+                discovered_at=datetime.now(tz=UTC),
+                scan_id=scan_id,
+            )
+        )
+    return extras
 
 
 def _first_target(findings: list[Finding]) -> TargetRef:

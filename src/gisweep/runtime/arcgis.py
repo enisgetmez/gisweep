@@ -26,7 +26,7 @@ import httpx
 import structlog
 
 from gisweep.auth.arcgis_token import generate_token
-from gisweep.compliance import apply_overlay
+from gisweep.compliance import apply_overlay_async
 from gisweep.core.context import Context
 from gisweep.core.finding import Severity, TargetKind, TargetRef
 from gisweep.core.http import HttpClient
@@ -121,7 +121,7 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         runner = Runner(ctx)
         with progress_callback(console) as on_progress:
             findings, meta = await runner.run(targets, on_progress=on_progress)
-        findings = apply_overlay(findings, scan_id=ctx.scan_id)
+        findings = await apply_overlay_async(findings, scan_id=ctx.scan_id, http=http)
 
     _emit_outputs(findings, meta, request.outputs, console)
     return meta.exit_code

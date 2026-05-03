@@ -1,0 +1,94 @@
+# KVKK / GDPR safe-transfer destinations.
+#
+# KVKK Madde 9 allows international transfer of personal data to countries the
+# Personal Data Protection Authority (KVKK Kurulu) deems "adequate" or under
+# explicit consent / contract. Turkey itself plus the EEA and the EU adequacy
+# countries are the safest baseline; everything else triggers COMP-002.
+#
+# GDPR Chapter V uses a similar list — every EU/EEA member plus the European
+# Commission's adequacy decisions (UK, Switzerland, Norway, Iceland,
+# Liechtenstein, Andorra, Argentina, Canada (PIPEDA), Faroe Islands, Guernsey,
+# Israel, Isle of Man, Japan, Jersey, New Zealand, South Korea, Switzerland,
+# Uruguay, the UK).
+#
+# Country codes are ISO 3166-1 alpha-2.
+
+kvkk_safe:
+  - TR  # Türkiye
+  - AT  # Austria
+  - BE  # Belgium
+  - BG  # Bulgaria
+  - HR  # Croatia
+  - CY  # Cyprus
+  - CZ  # Czechia
+  - DK  # Denmark
+  - EE  # Estonia
+  - FI  # Finland
+  - FR  # France
+  - DE  # Germany
+  - GR  # Greece
+  - HU  # Hungary
+  - IE  # Ireland
+  - IT  # Italy
+  - LV  # Latvia
+  - LT  # Lithuania
+  - LU  # Luxembourg
+  - MT  # Malta
+  - NL  # Netherlands
+  - PL  # Poland
+  - PT  # Portugal
+  - RO  # Romania
+  - SK  # Slovakia
+  - SI  # Slovenia
+  - ES  # Spain
+  - SE  # Sweden
+  - IS  # Iceland (EEA)
+  - LI  # Liechtenstein (EEA)
+  - NO  # Norway (EEA)
+
+gdpr_safe:
+  - AT
+  - BE
+  - BG
+  - HR
+  - CY
+  - CZ
+  - DK
+  - EE
+  - FI
+  - FR
+  - DE
+  - GR
+  - HU
+  - IE
+  - IT
+  - LV
+  - LT
+  - LU
+  - MT
+  - NL
+  - PL
+  - PT
+  - RO
+  - SK
+  - SI
+  - ES
+  - SE
+  - IS
+  - LI
+  - NO
+  # GDPR adequacy decisions
+  - GB  # United Kingdom
+  - CH  # Switzerland
+  - AD  # Andorra
+  - AR  # Argentina
+  - CA  # Canada (PIPEDA-covered organisations)
+  - FO  # Faroe Islands
+  - GG  # Guernsey
+  - IL  # Israel
+  - IM  # Isle of Man
+  - JP  # Japan
+  - JE  # Jersey
+  - NZ  # New Zealand
+  - KR  # South Korea
+  - UY  # Uruguay

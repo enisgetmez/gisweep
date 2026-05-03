@@ -18,6 +18,7 @@ from gisweep.core.registry import get_check
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
     from pathlib import Path
+
     pass
 
 PORTAL = "https://portal.example/portal"
