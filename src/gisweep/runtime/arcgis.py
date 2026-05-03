@@ -18,6 +18,7 @@ The function is async and returns the exit code so the CLI does
 from __future__ import annotations
 
 import dataclasses
+import re
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -111,7 +112,7 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         if token is not None:
             ctx.cache["arcgis_token"] = token
 
-        targets = await _build_targets(ctx, request)
+        targets = await _build_targets(ctx, request, console=console)
         if not targets:
             log.warning("arcgis.no_targets", url=request.url)
             return 2
@@ -154,16 +155,48 @@ def _build_options(request: ScanRequest) -> ScanOptions:
     )
 
 
-async def _build_targets(ctx: Context, request: ScanRequest) -> list[TargetRef]:
+_REST_ROOT_NEEDS_SERVICES = re.compile(r"/(?:arcgis|server)/rest/?$", re.IGNORECASE)
+
+
+def normalize_rest_root(url: str) -> str:
+    """Append ``/services`` when the user pointed at ``/arcgis/rest`` or
+    ``/server/rest`` instead of the canonical ``/arcgis/rest/services``.
+
+    ArcGIS Server's REST API root is ``…/rest/services`` — the parent
+    ``…/rest`` path either 404s or returns an HTML index, both of which
+    silently break the discovery walker. This helper avoids that footgun.
+    """
+    cleaned = url.rstrip("/")
+    if _REST_ROOT_NEEDS_SERVICES.search(cleaned):
+        return f"{cleaned}/services"
+    return cleaned
+
+
+async def _build_targets(
+    ctx: Context,
+    request: ScanRequest,
+    *,
+    console: Console | None = None,
+) -> list[TargetRef]:
     token = ctx.cache.get("arcgis_token")
-    enumerator = ArcGISEnumerator(ctx.http, request.url, token=token)
+    normalized_url = normalize_rest_root(request.url)
+    if normalized_url != request.url and console is not None:
+        console.print(
+            f"[dim]auto-corrected REST root: [cyan]{request.url}[/cyan] → "
+            f"[cyan]{normalized_url}[/cyan][/dim]"
+        )
+    enumerator = ArcGISEnumerator(ctx.http, normalized_url, token=token)
     targets: list[TargetRef] = [
         TargetRef(url=enumerator.root_url, kind=TargetKind.ARCGIS_ROOT),
     ]
+    folders: set[str] = set()
     services: list[ArcGISServiceRef] = []
+    layer_count = 0
     try:
         async for service in enumerator.walk(max_depth=request.max_depth):
             services.append(service)
+            if service.folder:
+                folders.add(service.folder)
             prefix = f"{service.folder}/" if service.folder else ""
             targets.append(
                 TargetRef(
@@ -174,24 +207,41 @@ async def _build_targets(ctx: Context, request: ScanRequest) -> list[TargetRef]:
             )
     except (httpx.HTTPError, OSError) as exc:
         ctx.logger.warning("arcgis.discovery.failed", error=str(exc))
+        if console is not None:
+            console.print(f"[red]discovery failed:[/red] {exc}")
         return targets
 
     for service in services:
         try:
-            targets.extend(
-                [
-                    TargetRef(
-                        url=layer.url,
-                        kind=TargetKind.ARCGIS_LAYER,
-                        service_path=f"{service.name}/{service.type}",
-                        layer_id=layer.layer_id,
-                    )
-                    async for layer in enumerator.layers(service)
-                ]
-            )
+            layer_targets = [
+                TargetRef(
+                    url=layer.url,
+                    kind=TargetKind.ARCGIS_LAYER,
+                    service_path=f"{service.name}/{service.type}",
+                    layer_id=layer.layer_id,
+                )
+                async for layer in enumerator.layers(service)
+            ]
         except (httpx.HTTPError, OSError) as exc:
             ctx.logger.debug("arcgis.layer_enum.failed", url=service.url, error=str(exc))
             continue
+        layer_count += len(layer_targets)
+        targets.extend(layer_targets)
+
+    if console is not None:
+        if not services:
+            console.print(
+                "[yellow]⚠ Discovery returned no services. The URL may be "
+                "wrong; try appending [cyan]/services[/cyan] to your REST root, "
+                "or check that anonymous enumeration is allowed.[/yellow]"
+            )
+        else:
+            console.print(
+                f"[dim]🔎 Discovered [bold]{len(services)}[/bold] service(s) and "
+                f"[bold]{layer_count}[/bold] layer(s) across "
+                f"[bold]{len(folders) or 1}[/bold] folder(s); running "
+                f"checks…[/dim]"
+            )
     return targets
 
 

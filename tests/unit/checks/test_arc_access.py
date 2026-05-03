@@ -23,6 +23,7 @@ from gisweep.core.registry import get_check
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
     from pathlib import Path
+
     pass
 
 ROOT = "https://x.example/arcgis/rest/services"

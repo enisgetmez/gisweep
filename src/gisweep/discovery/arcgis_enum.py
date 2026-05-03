@@ -174,7 +174,13 @@ class ArcGISEnumerator:
         url = self.with_query(base_url)
         response = await self._http.get(url)
         response.raise_for_status()
-        data = response.json()
+        try:
+            data = response.json()
+        except ValueError:
+            # Some misconfigured servers return HTML (or empty) at REST paths
+            # despite ``f=json``; treat as "nothing here" so the walker can
+            # keep going instead of aborting the whole scan.
+            return {}
         if not isinstance(data, dict):
             return {}
         return data
