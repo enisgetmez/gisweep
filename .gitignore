@@ -63,6 +63,9 @@ Thumbs.db
 *.gisweep.sarif
 *.gisweep.html
 
+# mkdocs build output
+site/
+
 # Secrets
 .env
 .env.*

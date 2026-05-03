@@ -1,0 +1,75 @@
+site_name: gisweep
+site_description: GIS vulnerability scanner — ArcGIS REST, OGC, embedded maps, secret detection, KVKK/GDPR-aware.
+site_url: https://enisgetmez.github.io/gisweep
+repo_url: https://github.com/enisgetmez/gisweep
+repo_name: enisgetmez/gisweep
+edit_uri: edit/main/docs/
+copyright: Copyright © 2026 Enis Getmez and contributors — Apache-2.0
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Install: install.md
+  - Quick start: quickstart.md
+  - Subcommands:
+      - arcgis: subcommands/arcgis.md
+      - ogc: subcommands/ogc.md
+      - web: subcommands/web.md
+      - secrets: subcommands/secrets.md
+      - scan (auto): subcommands/scan.md
+      - cleanup: subcommands/cleanup.md
+  - Check catalogue: checks.md
+  - Active mode + audit log: active.md
+  - Compliance overlay: compliance.md
+  - Output formats: outputs.md
+  - CVE database: cve.md
+  - Contributing: contributing.md
+  - Security: security.md
