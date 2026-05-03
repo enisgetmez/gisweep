@@ -54,16 +54,23 @@ PRODUCTS: dict[str, list[str]] = {
         "cpe:2.3:a:geonetwork-opensource:geonetwork",
         "cpe:2.3:a:geonetwork:geonetwork",
     ],
-    # Client-side JS libraries (fingerprinted by the Phase 4 web crawler)
+    # Client-side JS libraries (fingerprinted by the Phase 4 web crawler).
+    # Verified against the NVD CPE dictionary (services.nvd.nist.gov/rest/json/cpes/2.0):
+    #   - leafletjs:leaflet            ✓ tracked
+    #   - cesium:cesiumjs              ✓ tracked (NOT cesiumgs:cesium)
+    #   - openlayers, mapbox-gl-js     ✗ no formal CPE entry in NVD as of 2026-05;
+    #                                    keep keys present so the product slots
+    #                                    surface in 'gisweep checks list' and
+    #                                    light up the day NVD adds them.
     "openlayers:openlayers": ["cpe:2.3:a:openlayers:openlayers"],
     "leafletjs:leaflet": ["cpe:2.3:a:leafletjs:leaflet"],
     "mapbox:mapbox-gl-js": [
         "cpe:2.3:a:mapbox:mapbox-gl-js",
         "cpe:2.3:a:mapbox:mapbox_gl_js",
     ],
-    "cesiumgs:cesium": [
-        "cpe:2.3:a:cesiumgs:cesium",
-        "cpe:2.3:a:cesium:cesium",
+    "cesium:cesiumjs": [
+        "cpe:2.3:a:cesium:cesiumjs",
+        "cpe:2.3:a:cesiumgs:cesium",  # historical fallback
     ],
 }
 

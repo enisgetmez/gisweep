@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-02T23:48:30.128753+00:00",
+  "generated_at": "2026-05-03T01:41:32.163191+00:00",
   "source": "https://services.nvd.nist.gov/rest/json/cves/2.0",
   "products": {
     "esri:arcgis_server": [
@@ -5638,6 +5638,26 @@
     "openlayers:openlayers": [],
     "leafletjs:leaflet": [],
     "mapbox:mapbox-gl-js": [],
-    "cesiumgs:cesium": []
+    "cesium:cesiumjs": [
+      {
+        "cve_id": "CVE-2023-48094",
+        "summary": "A cross-site scripting (XSS) vulnerability in CesiumJS v1.111 allows attackers to execute arbitrary code in the context of the victim's browser via sending a crafted payload to /container_files/public_html/doc/index.html. NOTE: the vendor’s position is that Apps/Sandcastle/standalone.html is part of the CesiumGS/cesium GitHub repository, but is demo code that is not part of the CesiumJS JavaScript library product.",
+        "severity": "medium",
+        "cvss_score": 6.1,
+        "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "published": "2023-11-14T17:15:08.013",
+        "references": [
+          "https://gist.github.com/cd80/33ab71cc49c42feb55de3e574753320f",
+          "https://gist.github.com/cd80/33ab71cc49c42feb55de3e574753320f"
+        ],
+        "ranges": [
+          {
+            "introduced": null,
+            "fixed": null,
+            "exact": "1.111"
+          }
+        ]
+      }
+    ]
   }
 }
