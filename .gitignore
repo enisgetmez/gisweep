@@ -29,7 +29,6 @@ ENV/
 
 # uv
 .uv-cache/
-uv.lock
 
 # Tooling
 .ruff_cache/
