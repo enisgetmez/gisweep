@@ -17,6 +17,7 @@ from gisweep.core.finding import Evidence, Finding, Severity, TargetKind, Target
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+
     pass
 
 _PII_THRESHOLD_FOR_AGGREGATE = 5

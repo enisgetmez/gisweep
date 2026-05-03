@@ -18,6 +18,7 @@ from gisweep.core.finding import Severity
 from gisweep.runtime import arcgis as arcgis_runtime
 from gisweep.runtime import ogc as ogc_runtime
 from gisweep.runtime import secrets as secrets_runtime
+from gisweep.runtime import web as web_runtime
 
 _HELP = "GIS vulnerability scanner — ArcGIS REST, embedded maps, secret detection, KVKK/GDPR-aware."
 
@@ -290,10 +291,52 @@ def ogc(
 
 
 @app.command()
-def web(url: str = typer.Argument(..., help="Web page URL — Playwright crawler.")) -> None:
-    """Scan a website for embedded maps and secret leakage."""
-    _ = url
-    _not_implemented("web")
+def web(
+    url: str = typer.Argument(..., help="Web page URL — Playwright headless crawler."),
+    output: list[str] | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Output file (extension implies format) or `format:path`. Repeatable.",
+    ),
+    severity_threshold: Severity = typer.Option(
+        Severity.INFO, "--severity-threshold", help="Drop findings below this severity."
+    ),
+    include: str | None = typer.Option(
+        None, "--include", help="Comma-separated check ids to keep."
+    ),
+    exclude: str | None = typer.Option(
+        None, "--exclude", help="Comma-separated check ids to drop."
+    ),
+    proxy: str | None = typer.Option(None, "--proxy", help="HTTP/SOCKS proxy URL."),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+    headed: bool = typer.Option(False, "--headed", help="Run Chromium with a visible window."),
+    user_agent: str | None = typer.Option(
+        None, "--user-agent", help="Override the default browser User-Agent."
+    ),
+) -> None:
+    """Crawl a web page with Playwright and audit embedded GIS endpoints + secrets."""
+    request = web_runtime.ScanRequest(
+        url=url,
+        outputs=tuple(output or ()),
+        severity_threshold=severity_threshold,
+        include=_parse_csv(include),
+        exclude=_parse_csv(exclude),
+        proxy=proxy,
+        timeout=timeout,
+        verify_tls=not no_verify_tls,
+        headless=not headed,
+        user_agent=user_agent,
+        scan_id=uuid.uuid4().hex,
+        output_dir=Path.cwd(),
+    )
+    try:
+        exit_code = asyncio.run(web_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
 
 
 @app.command()

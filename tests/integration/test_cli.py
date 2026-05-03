@@ -86,15 +86,6 @@ def test_checks_info_known_id_renders_metadata() -> None:
 
 
 def test_scan_stub_exits_two() -> None:
+    """The auto-detect ``scan`` subcommand is the only remaining stub."""
     result = CliRunner().invoke(app, ["scan", "https://x.example"])
-    assert result.exit_code == 2
-
-
-def test_web_stub_exits_two() -> None:
-    result = CliRunner().invoke(app, ["web", "https://x.example"])
-    assert result.exit_code == 2
-
-
-def test_secrets_stub_exits_two() -> None:
-    result = CliRunner().invoke(app, ["secrets", "./build/"])
     assert result.exit_code == 2
