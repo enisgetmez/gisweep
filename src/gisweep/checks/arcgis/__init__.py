@@ -6,6 +6,7 @@ with the ArcGIS catalogue.
 """
 
 from gisweep.checks.arcgis import (  # noqa: F401
+    access,
     cves,
     data,
     data_exfil,

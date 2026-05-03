@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from gisweep.checks.arcgis._helpers import (
     fetch_layer_info,
     has_anonymous_token,
+    probe_layer_query,
 )
 from gisweep.core import Severity
 from gisweep.core.check import Check
@@ -64,18 +65,34 @@ class UnboundedQueryCheck(Check):
             and 0 < max_record_count <= _DEFAULT_RECORD_CAP_THRESHOLD
         ):
             return
+
+        probe = await probe_layer_query(ctx, target.url)
+        if probe.confirmed_anonymous_read:
+            severity = self.meta.severity  # HIGH — read confirmed
+            confidence = "anonymous read confirmed"
+        else:
+            severity = Severity.MEDIUM  # demote: capability seen but read not confirmed
+            confidence = (
+                f"capability seen in metadata; anonymous read not confirmed "
+                f"(http={probe.status_code}, requires_auth={probe.requires_auth})"
+            )
+
         layer_name = str(info.get("name") or "")
-        notes = [f"max_record_count={max_record_count!r}"]
+        notes = [
+            f"max_record_count={max_record_count!r}",
+            f"confidence={confidence}",
+            f"probe_count={probe.count!r}",
+        ]
         yield Finding(
             check_id=self.meta.id,
             title=self.meta.title,
-            severity=self.meta.severity,
+            severity=severity,
             target=target,
             description=(
                 f"Layer `{layer_name}` at `{target.url}` reports "
                 f"``maxRecordCount={max_record_count!r}``. A single query with "
                 "``where=1=1&outFields=*`` can therefore exfiltrate a large slice of "
-                "the dataset — particularly impactful when the layer holds personal data."
+                f"the dataset ({confidence})."
             ),
             evidence=Evidence(matched=f"maxRecordCount={max_record_count!r}", notes=notes),
             remediation=(
@@ -154,7 +171,17 @@ class PiiFieldsExposedCheck(Check):
         if not matched_fields:
             return
 
-        severity = Severity.CRITICAL if sensitive_hits else Severity.HIGH
+        probe = await probe_layer_query(ctx, target.url)
+        if probe.confirmed_anonymous_read:
+            severity = Severity.CRITICAL if sensitive_hits else Severity.HIGH
+            confidence = f"anonymous read confirmed (count={probe.count})"
+        else:
+            severity = Severity.MEDIUM
+            confidence = (
+                f"PII pattern in metadata; anonymous read not confirmed "
+                f"(http={probe.status_code}, requires_auth={probe.requires_auth})"
+            )
+
         layer_name = str(info.get("name") or "")
         unique_labels = sorted(set(labels))
         unique_fields = sorted(set(matched_fields))
@@ -166,8 +193,7 @@ class PiiFieldsExposedCheck(Check):
             description=(
                 f"Layer `{layer_name}` at `{target.url}` exposes "
                 f"{len(unique_fields)} field(s) matching personal-data patterns "
-                f"({', '.join(unique_labels)}). Combined with anonymous read access "
-                "this leaks personal data without legal basis or technical safeguards."
+                f"({', '.join(unique_labels)}). {confidence}."
             ),
             evidence=Evidence(
                 matched=", ".join(unique_fields),
@@ -175,6 +201,8 @@ class PiiFieldsExposedCheck(Check):
                     f"fields={','.join(unique_fields)}",
                     f"categories={','.join(unique_labels)}",
                     f"sensitive={sensitive_hits}",
+                    f"confidence={confidence}",
+                    f"probe_count={probe.count!r}",
                 ],
             ),
             remediation=(

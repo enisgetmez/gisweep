@@ -185,12 +185,36 @@ async def test_arc013_flags_unbounded_layer(ctx: Context) -> None:
             ),
         )
     )
+    respx.get(url__regex=rf"{LAYER}/query\?.*").mock(
+        return_value=Response(200, json={"count": 4242})
+    )
     cls = get_check("ARC-013")
     assert cls is not None
     target = TargetRef(url=LAYER, kind=TargetKind.ARCGIS_LAYER, layer_id=0)
     findings = await _collect(cls, target, ctx)
     assert len(findings) == 1
     assert findings[0].severity is Severity.HIGH
+
+
+@respx.mock
+async def test_arc013_demoted_to_medium_when_read_not_confirmed(ctx: Context) -> None:
+    respx.get(f"{LAYER}?f=json").mock(
+        return_value=Response(
+            200,
+            json=_layer_payload(
+                capabilities="Query",
+                max_record_count=None,
+                fields=[{"name": "OBJECTID", "alias": "OBJECTID", "type": "esriFieldTypeOID"}],
+            ),
+        )
+    )
+    respx.get(url__regex=rf"{LAYER}/query\?.*").mock(return_value=Response(401))
+    cls = get_check("ARC-013")
+    assert cls is not None
+    target = TargetRef(url=LAYER, kind=TargetKind.ARCGIS_LAYER, layer_id=0)
+    findings = await _collect(cls, target, ctx)
+    assert len(findings) == 1
+    assert findings[0].severity is Severity.MEDIUM
 
 
 @respx.mock
@@ -228,6 +252,9 @@ async def test_arc014_flags_pii_field_names(ctx: Context) -> None:
             ),
         )
     )
+    respx.get(url__regex=rf"{LAYER}/query\?.*").mock(
+        return_value=Response(200, json={"count": 999})
+    )
     cls = get_check("ARC-014")
     assert cls is not None
     target = TargetRef(url=LAYER, kind=TargetKind.ARCGIS_LAYER, layer_id=0)
@@ -252,6 +279,9 @@ async def test_arc014_critical_for_sensitive_categories(ctx: Context) -> None:
                 ],
             ),
         )
+    )
+    respx.get(url__regex=rf"{LAYER}/query\?.*").mock(
+        return_value=Response(200, json={"count": 999})
     )
     cls = get_check("ARC-014")
     assert cls is not None

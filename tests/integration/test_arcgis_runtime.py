@@ -60,6 +60,9 @@ def test_arcgis_subcommand_writes_json_and_exits_one(tmp_path: Path) -> None:
     respx.get(url__regex=r"https://x\.example/arcgis/(admin|portaladmin)/?").mock(
         return_value=Response(404)
     )
+    respx.get(url__regex=rf"{ROOT}/Citizen/FeatureServer/0/query\?.*").mock(
+        return_value=Response(200, json={"count": 12345})
+    )
 
     out_json = tmp_path / "report.json"
     result = CliRunner().invoke(
@@ -74,6 +77,8 @@ def test_arcgis_subcommand_writes_json_and_exits_one(tmp_path: Path) -> None:
     assert "ARC-002" in ids
     assert "ARC-013" in ids
     assert "ARC-014" in ids
+    assert "ARC-017" in ids  # anonymous read confirmed
+    assert "ARC-018" in ids  # inventory rollup
 
 
 def test_arcgis_active_without_ownership_flag_aborts() -> None:
