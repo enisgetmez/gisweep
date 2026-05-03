@@ -17,6 +17,7 @@ from gisweep.core import registry
 from gisweep.core.finding import Severity
 from gisweep.runtime import arcgis as arcgis_runtime
 from gisweep.runtime import auto as auto_runtime
+from gisweep.runtime import cleanup as cleanup_runtime
 from gisweep.runtime import ogc as ogc_runtime
 from gisweep.runtime import secrets as secrets_runtime
 from gisweep.runtime import web as web_runtime
@@ -399,6 +400,40 @@ def secrets(
     )
     try:
         exit_code = asyncio.run(secrets_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
+
+
+@app.command()
+def cleanup(
+    scan_id: str | None = typer.Option(
+        None,
+        "--scan-id",
+        help="Restrict cleanup to a single scan id (default: all scans in the audit log).",
+    ),
+    audit_log: Path | None = typer.Option(
+        None,
+        "--audit-log",
+        help="Override the audit log path (default: ~/.gisweep/audit.jsonl).",
+    ),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="List orphan test features but do not delete them."
+    ),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+) -> None:
+    """Delete orphaned test features left behind by failed --active probes."""
+    request = cleanup_runtime.CleanupRequest(
+        scan_id=scan_id,
+        audit_log=audit_log,
+        dry_run=dry_run,
+        timeout=timeout,
+        verify_tls=not no_verify_tls,
+    )
+    try:
+        exit_code = asyncio.run(cleanup_runtime.run(request, console=console))
     except KeyboardInterrupt:
         console.print("[yellow]aborted[/yellow]")
         raise typer.Exit(code=2) from None

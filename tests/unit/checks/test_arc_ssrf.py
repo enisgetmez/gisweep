@@ -19,6 +19,7 @@ from gisweep.core.registry import get_check
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
     from pathlib import Path
+
     pass
 
 GEOMETRY_SVC = "https://x.example/arcgis/rest/services/Utilities/Geometry/GeometryServer"

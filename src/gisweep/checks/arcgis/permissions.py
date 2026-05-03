@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import json
+import uuid
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 import httpx
 
+from gisweep.audit import AuditEntry, AuditOutcome, write_audit_entry
 from gisweep.checks.arcgis._helpers import (
     fetch_layer_info,
     has_anonymous_token,
@@ -30,6 +34,15 @@ _ADMIN_PATH_FRAGMENTS: tuple[tuple[str, str], ...] = (
     ("/rest/services", "/portaladmin"),
     ("/rest/services", "/portaladmin/"),
 )
+
+
+@dataclass(frozen=True, slots=True)
+class WriteVerification:
+    added: bool
+    deleted: bool
+    object_id: int | None
+    test_id: str
+    error: str | None = None
 
 
 @register(
@@ -73,23 +86,61 @@ class AnonymousWriteCapabilityCheck(Check):
         write_caps = caps & _WRITE_CAPABILITIES
         if not write_caps:
             return
+
+        verification: WriteVerification | None = None
+        if ctx.options.active and ctx.options.i_own_this_target:
+            verification = await _verify_anonymous_write(ctx, target.url, self.meta.id)
+
         layer_name = str(info.get("name") or "")
         notes = [
             f"capabilities={','.join(sorted(caps))}",
             f"writable={','.join(sorted(write_caps))}",
         ]
+        if verification is not None:
+            notes.extend(
+                [
+                    f"active_added={verification.added}",
+                    f"active_deleted={verification.deleted}",
+                    f"active_object_id={verification.object_id!r}",
+                    f"active_test_id={verification.test_id}",
+                ]
+            )
+            if verification.error:
+                notes.append(f"active_error={verification.error}")
+
+        if verification is not None and verification.added:
+            delete_state = (
+                "was successfully deleted"
+                if verification.deleted
+                else "⚠ COULD NOT BE DELETED — see audit log and run `gisweep cleanup`"
+            )
+            description = (
+                f"Layer `{layer_name}` at `{target.url}` accepted an anonymous "
+                f"``addFeatures`` call (object id={verification.object_id}); the "
+                f"feature {delete_state}. Anonymous write capability is "
+                "**verified**, not just advertised."
+            )
+        elif verification is not None:
+            description = (
+                f"Layer `{layer_name}` at `{target.url}` advertises write "
+                f"capabilities (`{', '.join(sorted(write_caps))}`) but the active "
+                f"add+delete probe failed: {verification.error or 'rejected'}. "
+                "Capability flag is set; the data plane may still require auth."
+            )
+        else:
+            description = (
+                f"Layer `{layer_name}` at `{target.url}` advertises write "
+                f"capabilities (`{', '.join(sorted(write_caps))}`) and was reached "
+                "without authentication. Re-run with ``--active --i-own-this-target`` "
+                "to confirm with an atomic add+delete probe."
+            )
+
         yield Finding(
             check_id=self.meta.id,
             title=self.meta.title,
             severity=self.meta.severity,
             target=target,
-            description=(
-                f"Layer `{layer_name}` at `{target.url}` advertises write "
-                f"capabilities (`{', '.join(sorted(write_caps))}`) and was reached without "
-                "authentication. An attacker may be able to insert, modify, or delete "
-                "features. Re-run with ``--active --i-own-this-target`` to confirm with an "
-                "atomic add/delete probe."
-            ),
+            description=description,
             evidence=Evidence(matched=",".join(sorted(write_caps)), notes=notes),
             remediation=(
                 "Restrict editing to authenticated, role-scoped users. In ArcGIS Server, "
@@ -107,6 +158,114 @@ class AnonymousWriteCapabilityCheck(Check):
             discovered_at=datetime.now(tz=UTC),
             scan_id=ctx.scan_id,
         )
+
+
+_HTTP_OK_STATUS = 200
+
+
+async def _verify_anonymous_write(
+    ctx: Context,
+    layer_url: str,
+    check_id: str,
+) -> WriteVerification:
+    """Atomic add → delete probe; every step is journalled to the audit log."""
+    test_id = f"gisweep-test-{uuid.uuid4().hex}"
+    operator = (
+        ctx.options.auth.referer
+        if ctx.options.auth and ctx.options.auth.referer
+        else "owner-attestation"
+    )
+    add_url = f"{layer_url.rstrip('/')}/addFeatures"
+    feature = {
+        "geometry": {"x": 0, "y": 0, "spatialReference": {"wkid": 4326}},
+        "attributes": {"_gisweep_test": test_id},
+    }
+    add_payload = {"f": "json", "features": json.dumps([feature])}
+
+    object_id: int | None = None
+    add_outcome = AuditOutcome.FAILURE
+    add_error: str | None = None
+    try:
+        response = await ctx.http.post(add_url, data=add_payload)
+        if response.status_code == _HTTP_OK_STATUS:
+            body = response.json() if response.content else {}
+            results = body.get("addResults") if isinstance(body, dict) else None
+            if isinstance(results, list) and results:
+                first = results[0]
+                if isinstance(first, dict) and first.get("success") is True:
+                    object_id_value = first.get("objectId")
+                    if isinstance(object_id_value, int):
+                        object_id = object_id_value
+                        add_outcome = AuditOutcome.SUCCESS
+                if isinstance(first, dict) and not first.get("success", True):
+                    add_error = str(first.get("error") or first)
+    except (httpx.HTTPError, OSError, ValueError) as exc:
+        add_error = str(exc)
+
+    write_audit_entry(
+        AuditEntry(
+            scan_id=ctx.scan_id,
+            check_id=check_id,
+            action="feature-add",
+            target_url=add_url,
+            outcome=add_outcome,
+            operator=operator,
+            details={
+                "layer_url": layer_url,
+                "test_id": test_id,
+                "object_id": object_id,
+                "error": add_error,
+            },
+        )
+    )
+
+    if object_id is None:
+        return WriteVerification(
+            added=False, deleted=False, object_id=None, test_id=test_id, error=add_error
+        )
+
+    delete_url = f"{layer_url.rstrip('/')}/deleteFeatures"
+    delete_payload = {"f": "json", "objectIds": str(object_id)}
+    delete_outcome = AuditOutcome.FAILURE
+    delete_error: str | None = None
+    try:
+        del_response = await ctx.http.post(delete_url, data=delete_payload)
+        if del_response.status_code == _HTTP_OK_STATUS:
+            body = del_response.json() if del_response.content else {}
+            results = body.get("deleteResults") if isinstance(body, dict) else None
+            if isinstance(results, list) and results:
+                first = results[0]
+                if isinstance(first, dict) and first.get("success") is True:
+                    delete_outcome = AuditOutcome.SUCCESS
+                else:
+                    delete_error = str(first.get("error") if isinstance(first, dict) else first)
+    except (httpx.HTTPError, OSError, ValueError) as exc:
+        delete_error = str(exc)
+
+    write_audit_entry(
+        AuditEntry(
+            scan_id=ctx.scan_id,
+            check_id=check_id,
+            action="feature-delete",
+            target_url=delete_url,
+            outcome=delete_outcome,
+            operator=operator,
+            details={
+                "layer_url": layer_url,
+                "test_id": test_id,
+                "object_id": object_id,
+                "error": delete_error,
+            },
+        )
+    )
+
+    return WriteVerification(
+        added=True,
+        deleted=delete_outcome is AuditOutcome.SUCCESS,
+        object_id=object_id,
+        test_id=test_id,
+        error=delete_error,
+    )
 
 
 @register(
