@@ -13,5 +13,6 @@ from gisweep.checks.arcgis import (  # noqa: F401
     data_exfil,
     enumeration,
     permissions,
+    portal,
     ssrf,
 )

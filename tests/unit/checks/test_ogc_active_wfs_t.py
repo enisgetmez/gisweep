@@ -25,6 +25,7 @@ from gisweep.discovery.ogc_enum import (
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
     from pathlib import Path
+
     pass
 
 WFS_ENDPOINT = "https://gs.example/geoserver/wfs"
