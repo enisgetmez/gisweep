@@ -57,6 +57,8 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
 
     crawler = BrowserCrawler(headless=request.headless, user_agent=request.user_agent)
     log.info("web.crawl_started", url=request.url)
+    if console is not None:
+        console.print(f"[dim]🔎 Loading [cyan]{request.url}[/cyan] in headless Chromium…[/dim]")
     discovery = await crawler.crawl(request.url)
     log.info(
         "web.crawl_complete",
@@ -65,6 +67,22 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         body_count=len(discovery.bodies),
         library_count=len(discovery.libraries),
     )
+    if console is not None:
+        if not discovery.requests and not discovery.page_html:
+            console.print(
+                "[yellow]⚠ The browser captured no responses from the page. The "
+                "URL may be unreachable, blocked by CSP, or behind a login wall."
+                "[/yellow]"
+            )
+        else:
+            lib_summary = ", ".join(f"{lib.name}={lib.version}" for lib in discovery.libraries[:5])
+            lib_str = f" [cyan]({lib_summary})[/cyan]" if lib_summary else ""
+            console.print(
+                f"[dim]🔎 Captured [bold]{len(discovery.requests)}[/bold] request(s), "
+                f"[bold]{len(discovery.bodies)}[/bold] body(ies), "
+                f"detected [bold]{len(discovery.libraries)}[/bold] GIS library(ies)"
+                f"{lib_str}; running checks…[/dim]"
+            )
 
     async with HttpClient(options) as http:
         ctx = Context(

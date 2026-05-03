@@ -92,6 +92,18 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
             findings.extend(
                 _to_findings(matcher, content, source=str(path), scan_id=request.scan_id)
             )
+        if console is not None:
+            if not sources:
+                console.print(
+                    "[yellow]⚠ No text-suffix files found under "
+                    f"[cyan]{target_path}[/cyan]. Supported suffixes: .js, .ts, "
+                    ".html, .json, .yml, .env, …[/yellow]"
+                )
+            else:
+                console.print(
+                    f"[dim]🔎 Scanned [bold]{len(sources)}[/bold] file(s) under "
+                    f"[cyan]{target_path}[/cyan]; running secret patterns…[/dim]"
+                )
     else:
         options = ScanOptions(
             timeout=request.timeout,
@@ -102,10 +114,14 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         )
         async with HttpClient(options) as http:
             sources.append(request.target)
+            if console is not None:
+                console.print(f"[dim]🔎 Fetching [cyan]{request.target}[/cyan]…[/dim]")
             try:
                 response = await http.get(request.target)
             except (httpx.HTTPError, OSError) as exc:
                 log.warning("secrets.fetch_failed", url=request.target, error=str(exc))
+                if console is not None:
+                    console.print(f"[red]fetch failed:[/red] {exc}")
                 return 2
             findings.extend(
                 _to_findings(matcher, response.text, source=request.target, scan_id=request.scan_id)

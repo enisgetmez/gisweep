@@ -74,7 +74,34 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
 
         if not capabilities:
             log.warning("ogc.no_capabilities", url=request.url)
+            if console is not None:
+                console.print(
+                    "[yellow]⚠ No WMS / WFS GetCapabilities document was returned "
+                    "by the probed endpoints. Check that the URL points at the "
+                    "service root (e.g. [cyan]/geoserver/wms[/cyan] or "
+                    "[cyan]/cgi-bin/mapserv[/cyan]) and that anonymous "
+                    "GetCapabilities is allowed.[/yellow]"
+                )
             return 2
+
+        services = sorted({cap.service for cap in capabilities})
+        layer_total = sum(len(cap.layers) for cap in capabilities)
+        software_versions = {
+            f"{cap.fingerprint.software} {cap.fingerprint.version or 'unknown'}"
+            for cap in capabilities
+            if cap.fingerprint.software != "unknown"
+        }
+        if console is not None:
+            software_str = (
+                f" ([cyan]{', '.join(sorted(software_versions))}[/cyan])"
+                if software_versions
+                else ""
+            )
+            console.print(
+                f"[dim]🔎 Discovered [bold]{len(capabilities)}[/bold] endpoint(s) "
+                f"({', '.join(services)}) with [bold]{layer_total}[/bold] "
+                f"layer(s)/feature-type(s){software_str}; running checks…[/dim]"
+            )
 
         log.info(
             "ogc.scan_started",

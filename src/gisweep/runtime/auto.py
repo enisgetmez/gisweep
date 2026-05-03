@@ -84,6 +84,18 @@ async def run(request: DispatchRequest, *, console: Console | None = None) -> in
     async with HttpClient(options) as http:
         kind = await detect(request.url, http=http)
     log.info("auto.detected", url=request.url, kind=kind.value)
+    if console is not None:
+        if kind is TargetKindGuess.UNKNOWN:
+            console.print(
+                f"[yellow]⚠ Could not determine the kind of [cyan]{request.url}[/cyan]. "
+                "Try the dedicated subcommand: [bold]arcgis[/bold], [bold]ogc[/bold], "
+                "[bold]web[/bold], or [bold]secrets[/bold].[/yellow]"
+            )
+        else:
+            console.print(
+                f"[dim]🧭 Auto-detected target as [cyan]{kind.value}[/cyan]; "
+                f"dispatching to [bold]gisweep {kind.value}[/bold]…[/dim]"
+            )
 
     if kind is TargetKindGuess.ARCGIS:
         return await arcgis_runtime.run(
