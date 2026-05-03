@@ -12,18 +12,25 @@ def matcher() -> SecretMatcher:
     return get_secret_matcher()
 
 
+# Test fixtures use string concatenation to keep GitHub push protection from
+# false-positiving on synthetic vendor patterns.
+_STRIPE_FIXTURE = "Stripe live key sk_" + "live_" + "FAKEPLACEHOLDER0000FAKEPLACE"
+_SLACK_FIXTURE = (
+    "https://hooks.slack.com/services/"
+    + "T00FAKEFAKE0"
+    + "/B00FAKEFAKE0"
+    + "/FAKEPLACEHOLDERtokenFAKE"
+)
+
+
 @pytest.mark.parametrize(
     ("text", "expected_id"),
     [
         ("apiKey: AIzaSyA1234567890ABCDEFGHIJKLMNOPQRSTUVWX", "google-maps-api-key"),
         ("AKIAIOSFODNN7EXAMPLE used as access key", "aws-access-key-id"),
         ("token=ghp_abcdefghijklmnopqrstuvwxyz1234567890", "github-pat-classic"),
-        ("Stripe live key " "sk_" "live_" "FAKEPLACEHOLDER0000FAKEPLACE", "stripe-secret-live"),
-        (
-            "https://" "hooks.slack.com/services/"
-            "T00FAKEFAKE0" "/B00FAKEFAKE0" "/FAKEPLACEHOLDERtokenFAKE",
-            "slack-webhook",
-        ),
+        (_STRIPE_FIXTURE, "stripe-secret-live"),
+        (_SLACK_FIXTURE, "slack-webhook"),
         (
             "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0."
             "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",

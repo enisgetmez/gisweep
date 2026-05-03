@@ -26,6 +26,8 @@ _EXTENSION_FORMAT: dict[str, str] = {
     ".htm": "html",
 }
 
+_KNOWN_FORMATS: frozenset[str] = frozenset({"console", "json", "sarif", "markdown", "html"})
+
 
 @dataclass(frozen=True, slots=True)
 class OutputSpec:
@@ -35,9 +37,10 @@ class OutputSpec:
 
 def parse_output_arg(arg: str) -> OutputSpec:
     """Parse a single ``-o`` value such as ``report.json`` or ``json:report.json``."""
-    if ":" in arg and not _looks_like_path(arg.split(":", 1)[0]):
-        fmt_explicit, _, path_str = arg.partition(":")
-        return OutputSpec(format=fmt_explicit.lower(), path=Path(path_str))
+    if ":" in arg:
+        prefix, _, path_str = arg.partition(":")
+        if prefix.lower() in _KNOWN_FORMATS:
+            return OutputSpec(format=prefix.lower(), path=Path(path_str))
 
     path = Path(arg)
     suffix = "".join(path.suffixes).lower() if path.suffixes else ""
@@ -64,11 +67,3 @@ def build_writer(spec: OutputSpec) -> OutputWriter:
     if spec.format == "html":
         return HtmlWriter(spec.path)
     raise ValueError(f"unknown output format: {spec.format!r}")
-
-
-def _looks_like_path(value: str) -> bool:
-    return (
-        "/" in value
-        or "\\" in value
-        or value.endswith((".json", ".sarif", ".md", ".markdown", ".html", ".htm"))
-    )

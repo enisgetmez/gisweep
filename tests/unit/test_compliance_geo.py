@@ -17,6 +17,7 @@ from gisweep.core.options import ScanOptions
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
+
     pass
 
 
