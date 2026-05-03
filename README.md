@@ -1,27 +1,41 @@
 # gisweep
 
-> GIS vulnerability scanner — ArcGIS REST, OGC (WMS/WFS), embedded web maps, secret
-> detection, KVKK/GDPR-aware.
+[![PyPI](https://img.shields.io/pypi/v/gisweep.svg)](https://pypi.org/project/gisweep/)
+[![Python](https://img.shields.io/pypi/pyversions/gisweep.svg)](https://pypi.org/project/gisweep/)
+[![CI](https://github.com/enisgetmez/gisweep/actions/workflows/ci.yml/badge.svg)](https://github.com/enisgetmez/gisweep/actions/workflows/ci.yml)
+[![Downloads](https://img.shields.io/pypi/dm/gisweep.svg)](https://pypi.org/project/gisweep/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/enisgetmez/gisweep?style=social)](https://github.com/enisgetmez/gisweep)
+
+> **In a six-second passive scan of a publicly indexed Turkish municipal ArcGIS
+> REST root, `gisweep` returned 99 findings — 9 critical, 17 high — including
+> anonymous write capability on seven feature-service layers, a reachable
+> `/arcgis/admin` endpoint, and PII fields (national ID, address, phone)
+> exposed on five MapServer layers. Each finding cites the exact KVKK and
+> GDPR article it triggers.** That's what this tool does.
 
 ![gisweep arcgis demo](docs/demo/demo.gif)
 
-`gisweep` is an open-source CLI that audits GIS surfaces for the misconfigurations
-nobody else looks for: ArcGIS REST services exposing anonymous write capabilities,
-GeoServer/MapServer endpoints with public WFS-Transactional, admin directories
-reachable from the public internet, embedded web maps leaking API keys, feature
-services returning PII without authentication, and outdated server / client-side
-libraries with public CVEs. Every finding is mapped to KVKK and GDPR articles so
-audits are usable directly in compliance reports.
+`gisweep` is an open-source CLI that audits GIS surfaces for the
+misconfigurations nobody else looks for: ArcGIS REST services exposing
+anonymous write capabilities, GeoServer/MapServer endpoints with public
+WFS-Transactional, admin directories reachable from the public internet,
+embedded web maps leaking API keys, feature services returning PII without
+authentication, and outdated server / client-side libraries with public CVEs.
+Every finding is mapped to KVKK and GDPR articles so audits are usable
+directly in compliance reports.
 
 ## Why
 
 ArcGIS REST and the open-source OGC stack (GeoServer, MapServer, QGIS Server)
 are everywhere — municipalities, utilities, transport, public health — and they
 are *consistently* misconfigured. Existing OSS scanners (nuclei, trivy, semgrep)
-do not understand ArcGIS or OGC semantics. `gisweep` fills that gap with a
-protocol-aware engine plus a Playwright-driven web crawler that finds embedded
-maps in the wild and follows their network traffic back to the underlying
-services.
+do not understand ArcGIS or OGC semantics, and existing compliance tools don't
+speak GIS. `gisweep` fills that gap with a protocol-aware engine plus a
+Playwright-driven web crawler that finds embedded maps in the wild and follows
+their network traffic back to the underlying services. Every finding leaves
+the scanner pre-mapped to **KVKK Madde 12 / 9** and **GDPR Art. 32 / 5(1)(f)**
+so a compliance officer can route it without translating from CVSS-speak.
 
 ## What it covers today
 
