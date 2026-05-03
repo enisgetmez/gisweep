@@ -23,6 +23,7 @@ from gisweep.discovery.browser import (
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
     from pathlib import Path
+
     pass
 
 PAGE_URL_HTTPS = "https://demo.example/map"
