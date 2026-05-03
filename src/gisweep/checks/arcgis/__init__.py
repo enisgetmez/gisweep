@@ -5,4 +5,10 @@ decorator; importing this package therefore populates the global registry
 with the ArcGIS catalogue.
 """
 
-from gisweep.checks.arcgis import cves, data, enumeration, permissions  # noqa: F401
+from gisweep.checks.arcgis import (  # noqa: F401
+    cves,
+    data,
+    data_exfil,
+    enumeration,
+    permissions,
+)

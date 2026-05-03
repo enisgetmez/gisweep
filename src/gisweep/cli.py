@@ -16,6 +16,7 @@ from gisweep import _version
 from gisweep.core import registry
 from gisweep.core.finding import Severity
 from gisweep.runtime import arcgis as arcgis_runtime
+from gisweep.runtime import auto as auto_runtime
 from gisweep.runtime import ogc as ogc_runtime
 from gisweep.runtime import secrets as secrets_runtime
 from gisweep.runtime import web as web_runtime
@@ -122,10 +123,32 @@ def _parse_csv(value: str | None) -> frozenset[str]:
 
 
 @app.command()
-def scan(url: str = typer.Argument(..., help="Target URL — kind auto-detected.")) -> None:
-    """Scan a target with auto-detected kind dispatch."""
-    _ = url
-    _not_implemented("scan")
+def scan(
+    url: str = typer.Argument(..., help="Target URL — kind auto-detected (ArcGIS / OGC / web)."),
+    output: list[str] | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Output file (extension implies format) or `format:path`. Repeatable.",
+    ),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+) -> None:
+    """Auto-detect the target kind and dispatch to the matching subcommand."""
+    request = auto_runtime.DispatchRequest(
+        url=url,
+        outputs=tuple(output or ()),
+        timeout=timeout,
+        verify_tls=not no_verify_tls,
+        scan_id=uuid.uuid4().hex,
+        output_dir=Path.cwd(),
+    )
+    try:
+        exit_code = asyncio.run(auto_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
 
 
 @app.command()

@@ -121,10 +121,7 @@ async def test_web002_finds_secret_in_inline_html(ctx: Context) -> None:
 
 
 async def test_web002_finds_secret_in_xhr_body(ctx: Context) -> None:
-    body = (
-        '{"mapboxToken": '
-        '"sk.eyJhYmMiOiJkZWYiLCJpYXQiOjE2MDAwMDAwMDB9.AAAAAAAAAAAAAAAAAAAAAAAA"}'
-    )
+    body = '{"mapboxToken": "sk.eyJhYmMiOiJkZWYiLCJpYXQiOjE2MDAwMDAwMDB9.AAAAAAAAAAAAAAAAAAAAAAAA"}'
     bodies = [
         CapturedResponseBody(
             url="https://demo.example/api/config.json",
