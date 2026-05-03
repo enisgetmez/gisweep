@@ -17,6 +17,7 @@ from gisweep.core import registry
 from gisweep.core.finding import Severity
 from gisweep.runtime import arcgis as arcgis_runtime
 from gisweep.runtime import ogc as ogc_runtime
+from gisweep.runtime import secrets as secrets_runtime
 
 _HELP = "GIS vulnerability scanner — ArcGIS REST, embedded maps, secret detection, KVKK/GDPR-aware."
 
@@ -296,10 +297,46 @@ def web(url: str = typer.Argument(..., help="Web page URL — Playwright crawler
 
 
 @app.command()
-def secrets(url_or_path: str = typer.Argument(..., help="URL or local path.")) -> None:
-    """Scan for leaked secrets and API keys."""
-    _ = url_or_path
-    _not_implemented("secrets")
+def secrets(
+    url_or_path: str = typer.Argument(..., help="HTTPS URL or local file/directory path."),
+    output: list[str] | None = typer.Option(
+        None,
+        "--output",
+        "-o",
+        help="Output file (extension implies format) or `format:path`. Repeatable.",
+    ),
+    severity_threshold: Severity = typer.Option(
+        Severity.INFO, "--severity-threshold", help="Drop findings below this severity."
+    ),
+    include: str | None = typer.Option(
+        None, "--include", help="Comma-separated check ids to keep."
+    ),
+    exclude: str | None = typer.Option(
+        None, "--exclude", help="Comma-separated check ids to drop."
+    ),
+    proxy: str | None = typer.Option(None, "--proxy", help="HTTP/SOCKS proxy URL."),
+    timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
+    no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+) -> None:
+    """Scan a URL or local path for leaked API keys, tokens, and credentials."""
+    request = secrets_runtime.ScanRequest(
+        target=url_or_path,
+        outputs=tuple(output or ()),
+        severity_threshold=severity_threshold,
+        include=_parse_csv(include),
+        exclude=_parse_csv(exclude),
+        proxy=proxy,
+        timeout=timeout,
+        verify_tls=not no_verify_tls,
+        scan_id=uuid.uuid4().hex,
+        output_dir=Path.cwd(),
+    )
+    try:
+        exit_code = asyncio.run(secrets_runtime.run(request, console=console))
+    except KeyboardInterrupt:
+        console.print("[yellow]aborted[/yellow]")
+        raise typer.Exit(code=2) from None
+    raise typer.Exit(code=exit_code)
 
 
 def main() -> None:  # pragma: no cover -- entry point shim
