@@ -34,3 +34,8 @@ class ScanOptions:
     auth: AuthConfig | None = None
     user_agent: str = "gisweep/0.1.0 (+https://github.com/enisgetmez/gisweep)"
     verify_tls: bool = True
+    # When False (default) any matched secret is reduced to "AIza…***xyz4"
+    # before it lands in Evidence.matched / console / report files. Operators
+    # who explicitly accept the operational risk can flip this to True via the
+    # CLI's ``--show-secrets`` flag.
+    show_secrets: bool = False

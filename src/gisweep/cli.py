@@ -134,6 +134,14 @@ def scan(
     ),
     timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
     no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+    show_secrets: bool = typer.Option(
+        False,
+        "--show-secrets",
+        help=(
+            "Show full matched secrets (API keys, tokens) instead of the "
+            "redacted prefix+suffix form. Treat the output as credential-bearing."
+        ),
+    ),
 ) -> None:
     """Auto-detect the target kind and dispatch to the matching subcommand."""
     request = auto_runtime.DispatchRequest(
@@ -141,6 +149,7 @@ def scan(
         outputs=tuple(output or ()),
         timeout=timeout,
         verify_tls=not no_verify_tls,
+        show_secrets=show_secrets,
         scan_id=uuid.uuid4().hex,
         output_dir=Path.cwd(),
     )
@@ -339,6 +348,14 @@ def web(
     user_agent: str | None = typer.Option(
         None, "--user-agent", help="Override the default browser User-Agent."
     ),
+    show_secrets: bool = typer.Option(
+        False,
+        "--show-secrets",
+        help=(
+            "Show full matched secrets (API keys, tokens) instead of the "
+            "redacted prefix+suffix form. Treat the output as credential-bearing."
+        ),
+    ),
 ) -> None:
     """Crawl a web page with Playwright and audit embedded GIS endpoints + secrets."""
     request = web_runtime.ScanRequest(
@@ -352,6 +369,7 @@ def web(
         verify_tls=not no_verify_tls,
         headless=not headed,
         user_agent=user_agent,
+        show_secrets=show_secrets,
         scan_id=uuid.uuid4().hex,
         output_dir=Path.cwd(),
     )
@@ -384,6 +402,14 @@ def secrets(
     proxy: str | None = typer.Option(None, "--proxy", help="HTTP/SOCKS proxy URL."),
     timeout: float = typer.Option(30.0, "--timeout", help="HTTP timeout (seconds)."),
     no_verify_tls: bool = typer.Option(False, "--no-verify-tls", help="Disable TLS verification."),
+    show_secrets: bool = typer.Option(
+        False,
+        "--show-secrets",
+        help=(
+            "Show full matched secrets (API keys, tokens) instead of the "
+            "redacted prefix+suffix form. Treat the output as credential-bearing."
+        ),
+    ),
 ) -> None:
     """Scan a URL or local path for leaked API keys, tokens, and credentials."""
     request = secrets_runtime.ScanRequest(
@@ -395,6 +421,7 @@ def secrets(
         proxy=proxy,
         timeout=timeout,
         verify_tls=not no_verify_tls,
+        show_secrets=show_secrets,
         scan_id=uuid.uuid4().hex,
         output_dir=Path.cwd(),
     )

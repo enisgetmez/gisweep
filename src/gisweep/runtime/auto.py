@@ -59,6 +59,7 @@ class DispatchRequest:
     outputs: tuple[str, ...]
     timeout: float
     verify_tls: bool
+    show_secrets: bool = False
 
 
 _ARCGIS_PATH_RE = re.compile(r"/(?:arcgis|server)/rest/services", re.IGNORECASE)
@@ -159,6 +160,7 @@ async def _run_web_with_pivot(
         outputs=(),
         timeout=request.timeout,
         verify_tls=request.verify_tls,
+        show_secrets=request.show_secrets,
     )
     web_findings, web_meta, discovery = await web_runtime.crawl_and_check(
         web_request, console=console

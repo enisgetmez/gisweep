@@ -70,7 +70,11 @@ class WebSecretLeakageCheck(Check):
                         "this verbatim, so the credential should be considered public."
                     ),
                     evidence=Evidence(
-                        matched=redact_secret(match.matched),
+                        matched=(
+                            match.matched
+                            if ctx.options.show_secrets
+                            else redact_secret(match.matched)
+                        ),
                         notes=[
                             f"pattern_id={match.pattern.id}",
                             f"page_url={result.final_url}",

@@ -44,6 +44,7 @@ class ScanRequest:
     verify_tls: bool = True
     headless: bool = True
     user_agent: str | None = None
+    show_secrets: bool = False
 
 
 async def crawl_and_check(
@@ -55,6 +56,13 @@ async def crawl_and_check(
     discovery result. The orchestrator (``runtime.auto``) consumes the
     discovery to feed pivot scans against any GIS endpoints the page used."""
     log = structlog.get_logger("gisweep.runtime.web").bind(scan_id=request.scan_id)
+    if request.show_secrets and console is not None:
+        console.print(
+            "[yellow]⚠ --show-secrets is on. Matched credentials will appear in "
+            "full in console output and any -o report files. Treat the output as "
+            "credential-bearing — never paste it into chat / bug reports / "
+            "screenshots without re-redacting first.[/yellow]"
+        )
     options = ScanOptions(
         severity_threshold=request.severity_threshold,
         include=request.include,
@@ -62,6 +70,7 @@ async def crawl_and_check(
         proxy=request.proxy,
         timeout=request.timeout,
         verify_tls=request.verify_tls,
+        show_secrets=request.show_secrets,
     )
 
     crawler = BrowserCrawler(headless=request.headless, user_agent=request.user_agent)

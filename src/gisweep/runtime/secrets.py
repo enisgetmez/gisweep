@@ -76,11 +76,19 @@ class ScanRequest:
     timeout: float = 30.0
     max_concurrency: int = 4
     verify_tls: bool = True
+    show_secrets: bool = False
 
 
-async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+async def run(request: ScanRequest, *, console: Console | None = None) -> int:  # noqa: PLR0912 -- cleanly splitting URL vs local-path branches doesn't actually reduce reader load
     log = structlog.get_logger("gisweep.runtime.secrets").bind(scan_id=request.scan_id)
     matcher = get_secret_matcher()
+    if request.show_secrets and console is not None:
+        console.print(
+            "[yellow]⚠ --show-secrets is on. Matched credentials will appear in "
+            "full in console output and any -o report files. Treat the output as "
+            "credential-bearing — never paste it into chat / bug reports / "
+            "screenshots without re-redacting first.[/yellow]"
+        )
     started = datetime.now(tz=UTC)
 
     findings: list[Finding] = []
@@ -90,7 +98,13 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         for path, content in _iter_local(target_path):
             sources.append(str(path))
             findings.extend(
-                _to_findings(matcher, content, source=str(path), scan_id=request.scan_id)
+                _to_findings(
+                    matcher,
+                    content,
+                    source=str(path),
+                    scan_id=request.scan_id,
+                    show_secrets=request.show_secrets,
+                )
             )
         if console is not None:
             if not sources:
@@ -124,7 +138,13 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
                     console.print(f"[red]fetch failed:[/red] {exc}")
                 return 2
             findings.extend(
-                _to_findings(matcher, response.text, source=request.target, scan_id=request.scan_id)
+                _to_findings(
+                    matcher,
+                    response.text,
+                    source=request.target,
+                    scan_id=request.scan_id,
+                    show_secrets=request.show_secrets,
+                )
             )
 
     findings = [f for f in findings if f.severity.at_least(request.severity_threshold)]
@@ -162,11 +182,15 @@ def _to_findings(
     *,
     source: str,
     scan_id: str,
+    show_secrets: bool,
 ) -> list[Finding]:
-    return [_to_finding(match, source=source, scan_id=scan_id) for match in matcher.scan(content)]
+    return [
+        _to_finding(match, source=source, scan_id=scan_id, show_secrets=show_secrets)
+        for match in matcher.scan(content)
+    ]
 
 
-def _to_finding(match: SecretMatch, *, source: str, scan_id: str) -> Finding:
+def _to_finding(match: SecretMatch, *, source: str, scan_id: str, show_secrets: bool) -> Finding:
     pattern = match.pattern
     return Finding(
         check_id="SEC-001",
@@ -180,7 +204,7 @@ def _to_finding(match: SecretMatch, *, source: str, scan_id: str) -> Finding:
             "to publishing them."
         ),
         evidence=Evidence(
-            matched=redact_secret(match.matched),
+            matched=match.matched if show_secrets else redact_secret(match.matched),
             notes=[
                 f"pattern_id={pattern.id}",
                 f"offset={match.start}-{match.end}",
