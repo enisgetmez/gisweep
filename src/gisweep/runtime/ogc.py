@@ -164,14 +164,15 @@ async def _discover(ctx: Context, base_url: str) -> tuple[list[OgcCapabilities],
     """
     enumerator = OgcEnumerator(ctx.http, base_url)
     capabilities: list[OgcCapabilities] = []
-    seen_endpoint: set[str] = set()
+    seen_endpoint_service: set[tuple[str, str]] = set()
     seen_canonical: set[tuple[str, str, str | None, str]] = set()
     targets: list[TargetRef] = []
     async for cap in enumerator.probe():
         capabilities.append(cap)
-        if cap.endpoint_url in seen_endpoint:
+        endpoint_service_key = (cap.endpoint_url, cap.service)
+        if endpoint_service_key in seen_endpoint_service:
             continue
-        seen_endpoint.add(cap.endpoint_url)
+        seen_endpoint_service.add(endpoint_service_key)
         host = httpx.URL(cap.endpoint_url).host or ""
         canonical_key = (
             host,
@@ -183,6 +184,20 @@ async def _discover(ctx: Context, base_url: str) -> tuple[list[OgcCapabilities],
             continue
         seen_canonical.add(canonical_key)
         targets.append(TargetRef(url=cap.endpoint_url, kind=TargetKind.OGC_SERVICE))
+        # Per-feature-type targets so the data-exposure checks (OGC-006/007/008)
+        # can run once per layer instead of per service. Only generated for
+        # WFS — WMS layers don't expose attribute schemas via GetCapabilities.
+        if cap.service == "WFS":
+            for layer in cap.layers:
+                if not layer.name:
+                    continue
+                targets.append(
+                    TargetRef(
+                        url=cap.endpoint_url,
+                        kind=TargetKind.OGC_LAYER,
+                        service_path=layer.name,
+                    )
+                )
     return capabilities, targets
 
 
