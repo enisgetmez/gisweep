@@ -39,7 +39,8 @@ async def _fetch_service_info(ctx: Context, service_url: str) -> dict[str, objec
     cached = ctx.cache.get(cache_key)
     if isinstance(cached, dict):
         return cached
-    enumerator = ArcGISEnumerator(ctx.http, service_url)
+    token = ctx.cache.get("arcgis_token")
+    enumerator = ArcGISEnumerator(ctx.http, service_url, token=token)
     url = enumerator.with_query(service_url)
     try:
         response = await ctx.http.get(url)

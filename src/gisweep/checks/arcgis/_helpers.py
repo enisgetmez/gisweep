@@ -22,7 +22,8 @@ async def fetch_layer_info(ctx: Context, layer_url: str) -> dict[str, Any]:
     cached = ctx.cache.get(key)
     if isinstance(cached, dict):
         return cached
-    enumerator = ArcGISEnumerator(ctx.http, layer_url)
+    token = ctx.cache.get("arcgis_token")
+    enumerator = ArcGISEnumerator(ctx.http, layer_url, token=token)
     info = await enumerator.layer_info(layer_url)
     ctx.cache[key] = info
     return info
@@ -33,7 +34,8 @@ async def fetch_root_info(ctx: Context, root_url: str) -> dict[str, Any]:
     cached = ctx.cache.get(key)
     if isinstance(cached, dict):
         return cached
-    enumerator = ArcGISEnumerator(ctx.http, root_url)
+    token = ctx.cache.get("arcgis_token")
+    enumerator = ArcGISEnumerator(ctx.http, root_url, token=token)
     info = await enumerator.root_info()
     ctx.cache[key] = info
     return info
