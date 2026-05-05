@@ -27,6 +27,7 @@ if TYPE_CHECKING:
 
     from gisweep.core.finding import Finding
     from gisweep.core.runner import ScanMeta
+    from gisweep.discovery.browser import WebDiscoveryResult
 
 
 @dataclass(frozen=True, slots=True)
@@ -45,7 +46,14 @@ class ScanRequest:
     user_agent: str | None = None
 
 
-async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+async def crawl_and_check(
+    request: ScanRequest,
+    *,
+    console: Console | None = None,
+) -> tuple[list[Finding], ScanMeta, WebDiscoveryResult]:
+    """Run the crawler + WEB checks and return findings, meta, and the raw
+    discovery result. The orchestrator (``runtime.auto``) consumes the
+    discovery to feed pivot scans against any GIS endpoints the page used."""
     log = structlog.get_logger("gisweep.runtime.web").bind(scan_id=request.scan_id)
     options = ScanOptions(
         severity_threshold=request.severity_threshold,
@@ -101,6 +109,11 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
             findings, meta = await runner.run([target], on_progress=on_progress)
         findings = await apply_overlay_async(findings, scan_id=ctx.scan_id, http=http)
 
+    return list(findings), meta, discovery
+
+
+async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+    findings, meta, _ = await crawl_and_check(request, console=console)
     _emit_outputs(findings, meta, request.outputs, console)
     return meta.exit_code
 

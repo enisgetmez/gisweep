@@ -73,7 +73,17 @@ class ScanRequest:
     max_depth: int = 5
 
 
-async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+async def scan_only(
+    request: ScanRequest,
+    *,
+    console: Console | None = None,
+) -> tuple[list[Finding], ScanMeta] | None:
+    """Run discovery + checks and return ``(findings, meta)``.
+
+    Returns ``None`` when discovery yields zero targets — the orchestrator
+    treats that as a soft failure (exit code 2) without emitting an empty
+    report. ``run`` wraps this and writes outputs.
+    """
     options = _build_options(request)
     log = structlog.get_logger("gisweep.runtime.arcgis").bind(scan_id=request.scan_id)
 
@@ -116,13 +126,21 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
         targets = await _build_targets(ctx, request, console=console)
         if not targets:
             log.warning("arcgis.no_targets", url=request.url)
-            return 2
+            return None
 
         runner = Runner(ctx)
         with progress_callback(console) as on_progress:
             findings, meta = await runner.run(targets, on_progress=on_progress)
         findings = await apply_overlay_async(findings, scan_id=ctx.scan_id, http=http)
 
+    return list(findings), meta
+
+
+async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+    result = await scan_only(request, console=console)
+    if result is None:
+        return 2
+    findings, meta = result
     _emit_outputs(findings, meta, request.outputs, console)
     return meta.exit_code
 

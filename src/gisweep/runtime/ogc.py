@@ -12,6 +12,7 @@ import dataclasses
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
+import httpx
 import structlog
 
 from gisweep.checks.ogc._helpers import CACHE_KEY
@@ -55,7 +56,15 @@ class ScanRequest:
     verify_tls: bool = True
 
 
-async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+async def scan_only(
+    request: ScanRequest,
+    *,
+    console: Console | None = None,
+) -> tuple[list[Finding], ScanMeta] | None:
+    """Probe the OGC endpoint, populate the capabilities cache, and run the
+    OGC check catalogue. Returns ``(findings, meta)`` — or ``None`` when no
+    GetCapabilities document was retrievable, which the orchestrator treats
+    as exit code 2."""
     options = _build_options(request)
     log = structlog.get_logger("gisweep.runtime.ogc").bind(scan_id=request.scan_id)
 
@@ -83,7 +92,7 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
                     "[cyan]/cgi-bin/mapserv[/cyan]) and that anonymous "
                     "GetCapabilities is allowed.[/yellow]"
                 )
-            return 2
+            return None
 
         services = sorted({cap.service for cap in capabilities})
         layer_total = sum(len(cap.layers) for cap in capabilities)
@@ -114,6 +123,14 @@ async def run(request: ScanRequest, *, console: Console | None = None) -> int:
             findings, meta = await runner.run(targets, on_progress=on_progress)
         findings = await apply_overlay_async(findings, scan_id=ctx.scan_id, http=http)
 
+    return list(findings), meta
+
+
+async def run(request: ScanRequest, *, console: Console | None = None) -> int:
+    result = await scan_only(request, console=console)
+    if result is None:
+        return 2
+    findings, meta = result
     _emit_outputs(findings, meta, request.outputs, console)
     return meta.exit_code
 
@@ -135,15 +152,36 @@ def _build_options(request: ScanRequest) -> ScanOptions:
 
 
 async def _discover(ctx: Context, base_url: str) -> tuple[list[OgcCapabilities], list[TargetRef]]:
+    """Walk the GetCapabilities probes and collapse "same server reachable
+    via multiple aliased paths" into a single canonical target.
+
+    Modern GeoServer routes ``/geoserver/wms``, ``/geoserver/wfs``,
+    ``/geoserver/ows`` (and the bare ``/wms`` / ``/wfs`` / ``/ows`` paths
+    when proxied) all into the same backend. Each one happily answers
+    GetCapabilities, so without dedup every per-layer check fires once per
+    alias and the report is N times the real finding count. We pick the first
+    (host, fingerprint, service) we see and drop the rest.
+    """
     enumerator = OgcEnumerator(ctx.http, base_url)
     capabilities: list[OgcCapabilities] = []
-    seen: set[str] = set()
+    seen_endpoint: set[str] = set()
+    seen_canonical: set[tuple[str, str, str | None, str]] = set()
     targets: list[TargetRef] = []
     async for cap in enumerator.probe():
         capabilities.append(cap)
-        if cap.endpoint_url in seen:
+        if cap.endpoint_url in seen_endpoint:
             continue
-        seen.add(cap.endpoint_url)
+        seen_endpoint.add(cap.endpoint_url)
+        host = httpx.URL(cap.endpoint_url).host or ""
+        canonical_key = (
+            host,
+            cap.fingerprint.software,
+            cap.fingerprint.version,
+            cap.service,
+        )
+        if canonical_key in seen_canonical:
+            continue
+        seen_canonical.add(canonical_key)
         targets.append(TargetRef(url=cap.endpoint_url, kind=TargetKind.OGC_SERVICE))
     return capabilities, targets
 

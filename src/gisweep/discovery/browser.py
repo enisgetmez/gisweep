@@ -56,6 +56,12 @@ class WebDiscoveryResult:
 _SNIFFABLE_TYPES: frozenset[str] = frozenset({"document", "script", "xhr", "fetch", "stylesheet"})
 _DEFAULT_NAVIGATION_TIMEOUT_MS = 30_000
 _DEFAULT_NETWORK_IDLE_TIMEOUT_MS = 8_000
+# Map-heavy SPAs often hit networkidle BEFORE the JS bundle hydrates the map
+# component and starts loading tiles / WMS layers. We deliberately keep the
+# browser open for a few seconds after networkidle to catch those late
+# requests — this is the difference between "found 1 doc, 0 tiles" and "found
+# the actual GeoServer endpoint" for many municipal portals.
+_POST_LOAD_DWELL_MS = 4_000
 _MAX_BODY_BYTES = 1_000_000  # 1 MB per response
 
 
@@ -66,11 +72,13 @@ class BrowserCrawler:
         headless: bool = True,
         navigation_timeout_ms: int = _DEFAULT_NAVIGATION_TIMEOUT_MS,
         network_idle_timeout_ms: int = _DEFAULT_NETWORK_IDLE_TIMEOUT_MS,
+        post_load_dwell_ms: int = _POST_LOAD_DWELL_MS,
         user_agent: str | None = None,
     ) -> None:
         self._headless = headless
         self._navigation_timeout_ms = navigation_timeout_ms
         self._network_idle_timeout_ms = network_idle_timeout_ms
+        self._post_load_dwell_ms = post_load_dwell_ms
         self._user_agent = user_agent
 
     async def crawl(self, url: str) -> WebDiscoveryResult:
@@ -95,6 +103,8 @@ class BrowserCrawler:
                     await page.wait_for_load_state(
                         "networkidle", timeout=self._network_idle_timeout_ms
                     )
+                with contextlib.suppress(Exception):
+                    await page.wait_for_timeout(self._post_load_dwell_ms)
 
                 result.final_url = page.url
                 result.page_html = await page.content()
