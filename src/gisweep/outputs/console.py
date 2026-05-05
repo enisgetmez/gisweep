@@ -57,7 +57,11 @@ class ConsoleWriter:
             compliance = ", ".join(
                 [*[f"KVKK {a}" for a in f.kvkk_articles], *[f"GDPR {a}" for a in f.gdpr_articles]]
             )
-            table.add_row(badge, f.check_id, f.title, f.target.url, compliance or "-")
+            title_cell = Text(f.title)
+            matched = f.evidence.matched if f.evidence else None
+            if matched:
+                title_cell.append(f"\n→ {matched}", style="dim italic")
+            table.add_row(badge, f.check_id, title_cell, f.target.url, compliance or "-")
 
         self._console.print(table)
         self._render_summary(meta)

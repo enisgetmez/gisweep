@@ -60,3 +60,39 @@ def test_console_writer_renders_findings_table() -> None:
     assert "KVKK m12" in output
     assert "GDPR art32" in output
     assert "critical=1" in output
+
+
+def test_console_writer_surfaces_evidence_matched_under_title() -> None:
+    buf = StringIO()
+    writer = ConsoleWriter(Console(file=buf, force_terminal=False, width=200))
+    finding = Finding(
+        check_id="ARC-014",
+        title="Layer exposes PII fields",
+        severity=Severity.CRITICAL,
+        target=TargetRef(url="https://x.example/MapServer/0", kind=TargetKind.ARCGIS_LAYER),
+        description="x",
+        evidence=Evidence(matched="TCKN, IBAN, EMAIL_ADRESI"),
+        remediation="x",
+        kvkk_articles=["m12"],
+        gdpr_articles=["art32"],
+        discovered_at=datetime(2026, 5, 3, tzinfo=UTC),
+        scan_id="0123456789abcdef",
+    )
+    counts = dict.fromkeys(Severity, 0)
+    counts[Severity.CRITICAL] = 1
+    writer.write([finding], _meta(counts))
+    output = buf.getvalue()
+    assert "Layer exposes PII fields" in output
+    assert "TCKN" in output
+    assert "IBAN" in output
+    assert "EMAIL_ADRESI" in output
+
+
+def test_console_writer_omits_evidence_arrow_when_no_match() -> None:
+    buf = StringIO()
+    writer = ConsoleWriter(Console(file=buf, force_terminal=False, width=120))
+    counts = dict.fromkeys(Severity, 0)
+    counts[Severity.CRITICAL] = 1
+    writer.write([_finding()], _meta(counts))
+    output = buf.getvalue()
+    assert "→" not in output
