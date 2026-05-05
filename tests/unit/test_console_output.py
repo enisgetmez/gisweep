@@ -18,7 +18,7 @@ def _meta(counts: dict[Severity, int] | None = None) -> ScanMeta:
         started_at=datetime(2026, 5, 3, 12, 0, 0, tzinfo=UTC),
         finished_at=datetime(2026, 5, 3, 12, 0, 1, tzinfo=UTC),
         targets=("https://x.example",),
-        gisweep_version="0.1.0",
+        gisweep_version="0.2.0",
         exit_code=0,
         counts_by_severity=counts or dict.fromkeys(Severity, 0),
     )

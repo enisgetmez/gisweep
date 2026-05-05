@@ -36,13 +36,13 @@ def test_redact_request_headers_targets_only_secret_headers() -> None:
     headers = {
         "Authorization": "Bearer ABCDEFGH1234",
         "Cookie": "session=ABCDEFGH",
-        "User-Agent": "gisweep/0.1.0",
+        "User-Agent": "gisweep/0.2.0",
         "Accept": "application/json",
     }
     redacted = redact_request_headers(headers)
     assert redacted["Authorization"] == "***1234"
     assert redacted["Cookie"] == "***EFGH"
-    assert redacted["User-Agent"] == "gisweep/0.1.0"
+    assert redacted["User-Agent"] == "gisweep/0.2.0"
     assert redacted["Accept"] == "application/json"
 
 

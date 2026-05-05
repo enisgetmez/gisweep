@@ -1,6 +1,6 @@
 [project]
 name = "gisweep"
-version = "0.1.0"
+version = "0.2.0"
 description = "GIS vulnerability scanner — ArcGIS REST, embedded maps, secret detection, KVKK/GDPR-aware"
 readme = "README.md"
 requires-python = ">=3.11"

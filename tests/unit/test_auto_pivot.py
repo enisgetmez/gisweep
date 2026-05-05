@@ -27,7 +27,7 @@ def _meta(scan_id: str, exit_code: int = 0) -> ScanMeta:
         started_at=datetime(2026, 5, 5, 12, 0, 0, tzinfo=UTC),
         finished_at=datetime(2026, 5, 5, 12, 0, 1, tzinfo=UTC),
         targets=("https://x.gov",),
-        gisweep_version="0.1.0",
+        gisweep_version="0.2.0",
         exit_code=exit_code,
         counts_by_severity=dict.fromkeys(Severity, 0),
     )

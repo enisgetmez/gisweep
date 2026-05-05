@@ -26,7 +26,7 @@ def _meta() -> ScanMeta:
         started_at=datetime(2026, 5, 3, 12, 0, 0, tzinfo=UTC),
         finished_at=datetime(2026, 5, 3, 12, 0, 1, 250000, tzinfo=UTC),
         targets=("https://x.example/arcgis/rest/services",),
-        gisweep_version="0.1.0",
+        gisweep_version="0.2.0",
         exit_code=1,
         counts_by_severity={**dict.fromkeys(Severity, 0), Severity.CRITICAL: 1},
     )
