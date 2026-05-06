@@ -172,7 +172,9 @@ async def test_ogc006_fires_critical_when_pii_field_anonymously_readable(
     findings = await _collect("OGC-006", ctx, _layer_target(PII_TYPE_NAME))
     assert len(findings) == 1
     assert findings[0].severity in {Severity.HIGH, Severity.CRITICAL}
-    assert "tckn" in findings[0].evidence.matched.lower()
+    matched = findings[0].evidence.matched
+    assert matched is not None
+    assert "tckn" in matched.lower()
 
 
 @respx.mock
@@ -207,7 +209,9 @@ async def test_ogc007_fires_on_high_cardinality_anonymous_read(ctx: Context) -> 
     findings = await _collect("OGC-007", ctx, _layer_target(PII_TYPE_NAME))
     assert len(findings) == 1
     assert findings[0].severity is Severity.HIGH
-    assert "42117" in findings[0].evidence.matched
+    matched = findings[0].evidence.matched
+    assert matched is not None
+    assert "42117" in matched
 
 
 @respx.mock
@@ -231,7 +235,9 @@ async def test_ogc008_fires_when_member_returned(ctx: Context) -> None:
     _mock_getfeature(SAFE_TYPE_NAME, _GETFEATURE_SMALL_RESPONSE)
     findings = await _collect("OGC-008", ctx, _layer_target(SAFE_TYPE_NAME))
     assert len(findings) == 1
-    assert "durak_adi" in findings[0].evidence.matched
+    matched = findings[0].evidence.matched
+    assert matched is not None
+    assert "durak_adi" in matched
 
 
 @respx.mock
@@ -273,7 +279,9 @@ async def test_geo001_fires_when_runtime_marker_returned(
     findings = await _collect("GEO-001", ctx_active, _service_target())
     assert len(findings) == 1
     assert findings[0].severity is Severity.CRITICAL
-    assert "java.lang.Runtime" in findings[0].evidence.matched
+    matched = findings[0].evidence.matched
+    assert matched is not None
+    assert "java.lang.Runtime" in matched
 
     audit_lines = (tmp_path / "audit.jsonl").read_text().splitlines()
     assert any(json.loads(line)["outcome"] == "success" for line in audit_lines if line)
